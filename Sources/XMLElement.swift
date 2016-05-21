@@ -41,6 +41,11 @@ extension XMLElement {
         return AnySequence { XMLAttribute(attr: self.node.pointee.properties).makeIterator() }
     }
 
+    /// parent of the XML element
+    public var parent: XMLElement {
+        return XMLElement(node: node.pointee.parent)
+    }
+
     /// siblings of the XML element
     public var siblings: AnySequence<XMLElement> {
         guard node.pointee.next != nil else { return emptySequence() }

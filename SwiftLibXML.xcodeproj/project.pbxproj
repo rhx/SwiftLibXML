@@ -363,7 +363,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = SwiftLibXML/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks /Library/Developer/Toolchains/swift-latest.xctoolchain/usr/lib/swift/macosx";
 				PRODUCT_BUNDLE_IDENTIFIER = at.hexel.SwiftLibXML;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -381,7 +381,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = SwiftLibXML/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks /Library/Developer/Toolchains/swift-latest.xctoolchain/usr/lib/swift/macosx";
 				PRODUCT_BUNDLE_IDENTIFIER = at.hexel.SwiftLibXML;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
