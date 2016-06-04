@@ -69,8 +69,8 @@ public class XMLDocument {
 
     /// get the value for a named attribute
     public func valueFor(attribute name: String, inElement e: XMLElement) -> String? {
-        guard let attr = e.attributes.lazy.filter({$0.name == name}).first else { return nil }
-        return valueFor(attribute: attr)
+        let attr = e.attributes.filter({$0.name == name}).first
+        return attr.flatMap { valueFor(attribute: $0) }
     }
 }
 
