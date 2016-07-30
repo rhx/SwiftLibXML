@@ -79,7 +79,7 @@ extension XMLElement {
     /// return the boolean value of a given attribute
     public func bool(named n: String) -> Bool {
         if let str = attribute(named: n),
-           let val = Int(str) where val != 0 {
+           let val = Int(str), val != 0 {
             return true
         } else {
             return false
@@ -89,7 +89,7 @@ extension XMLElement {
     /// return the boolean value of a given attribute in a given name space
     public func bool(named n: String, namespace: String) -> Bool {
         if let str = attribute(named: n, namespace:  namespace),
-           let val = Int(str) where val != 0 {
+           let val = Int(str), val != 0 {
             return true
         } else {
             return false
