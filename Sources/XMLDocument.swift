@@ -62,7 +62,7 @@ public class XMLDocument {
         let attr = attribute.attr
         guard let children = attr.pointee.children,
               let s = xmlNodeListGetString(xml, children, 1) else { return nil }
-        let value = String(cString: UnsafePointer(s)) ?? ""
+        let value = String(cString: UnsafePointer(s))
         xmlFree(s)
         return value
     }
