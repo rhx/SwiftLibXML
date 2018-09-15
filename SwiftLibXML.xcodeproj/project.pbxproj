@@ -6,136 +6,151 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		"SwiftLibXML::SwiftLibXMLPackageTests::ProductTarget" /* SwiftLibXMLPackageTests */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = OBJ_41 /* Build configuration list for PBXAggregateTarget "SwiftLibXMLPackageTests" */;
+			buildPhases = (
+			);
+			dependencies = (
+				OBJ_44 /* PBXTargetDependency */,
+			);
+			name = SwiftLibXMLPackageTests;
+			productName = SwiftLibXMLPackageTests;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
-		F1DA0D151CE848BB00BC5143 /* SwiftLibXML.h in Headers */ = {isa = PBXBuildFile; fileRef = F1DA0D141CE848BB00BC5143 /* SwiftLibXML.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F1DA0D1C1CE848BB00BC5143 /* SwiftLibXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1DA0D111CE848BB00BC5143 /* SwiftLibXML.framework */; };
-		F1DA0D211CE848BB00BC5143 /* SwiftLibXMLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DA0D201CE848BB00BC5143 /* SwiftLibXMLTests.swift */; };
-		F1DA0D321CE8494700BC5143 /* EmptySequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DA0D2C1CE8494700BC5143 /* EmptySequence.swift */; };
-		F1DA0D331CE8494700BC5143 /* XMLAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DA0D2D1CE8494700BC5143 /* XMLAttribute.swift */; };
-		F1DA0D341CE8494700BC5143 /* XMLDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DA0D2E1CE8494700BC5143 /* XMLDocument.swift */; };
-		F1DA0D351CE8494700BC5143 /* XMLElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DA0D2F1CE8494700BC5143 /* XMLElement.swift */; };
-		F1DA0D361CE8494700BC5143 /* XMLNameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DA0D301CE8494700BC5143 /* XMLNameSpace.swift */; };
-		F1DA0D371CE8494700BC5143 /* XMLPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DA0D311CE8494700BC5143 /* XMLPath.swift */; };
+		OBJ_27 /* EmptySequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* EmptySequence.swift */; };
+		OBJ_28 /* XMLAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* XMLAttribute.swift */; };
+		OBJ_29 /* XMLDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* XMLDocument.swift */; };
+		OBJ_30 /* XMLElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* XMLElement.swift */; };
+		OBJ_31 /* XMLNameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* XMLNameSpace.swift */; };
+		OBJ_32 /* XMLPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* XMLPath.swift */; };
+		OBJ_39 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
+		OBJ_50 /* SwiftLibXMLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* SwiftLibXMLTests.swift */; };
+		OBJ_52 /* SwiftLibXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftLibXML::SwiftLibXML::Product" /* SwiftLibXML.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		F1DA0D1D1CE848BB00BC5143 /* PBXContainerItemProxy */ = {
+		F1DDDEA2214C9AD00066FD01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = F1DA0D081CE848BB00BC5143 /* Project object */;
+			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F1DA0D101CE848BB00BC5143;
+			remoteGlobalIDString = "SwiftLibXML::SwiftLibXML";
 			remoteInfo = SwiftLibXML;
+		};
+		F1DDDEA3214C9AD10066FD01 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SwiftLibXML::SwiftLibXMLTests";
+			remoteInfo = SwiftLibXMLTests;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F1DA0D111CE848BB00BC5143 /* SwiftLibXML.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftLibXML.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F1DA0D141CE848BB00BC5143 /* SwiftLibXML.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftLibXML.h; sourceTree = "<group>"; };
-		F1DA0D161CE848BB00BC5143 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F1DA0D1B1CE848BB00BC5143 /* SwiftLibXMLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftLibXMLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F1DA0D201CE848BB00BC5143 /* SwiftLibXMLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftLibXMLTests.swift; sourceTree = "<group>"; };
-		F1DA0D221CE848BB00BC5143 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F1DA0D2C1CE8494700BC5143 /* EmptySequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptySequence.swift; sourceTree = "<group>"; };
-		F1DA0D2D1CE8494700BC5143 /* XMLAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLAttribute.swift; sourceTree = "<group>"; };
-		F1DA0D2E1CE8494700BC5143 /* XMLDocument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLDocument.swift; sourceTree = "<group>"; };
-		F1DA0D2F1CE8494700BC5143 /* XMLElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLElement.swift; sourceTree = "<group>"; };
-		F1DA0D301CE8494700BC5143 /* XMLNameSpace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLNameSpace.swift; sourceTree = "<group>"; };
-		F1DA0D311CE8494700BC5143 /* XMLPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLPath.swift; sourceTree = "<group>"; };
-		F1DA0D381CE849E000BC5143 /* SwiftLibXML-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftLibXML-Swift.h"; sourceTree = "<group>"; };
+		OBJ_10 /* XMLAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLAttribute.swift; sourceTree = "<group>"; };
+		OBJ_11 /* XMLDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLDocument.swift; sourceTree = "<group>"; };
+		OBJ_12 /* XMLElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLElement.swift; sourceTree = "<group>"; };
+		OBJ_13 /* XMLNameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLNameSpace.swift; sourceTree = "<group>"; };
+		OBJ_14 /* XMLPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLPath.swift; sourceTree = "<group>"; };
+		OBJ_17 /* SwiftLibXMLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftLibXMLTests.swift; sourceTree = "<group>"; };
+		OBJ_18 /* SwiftLibXML */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SwiftLibXML; sourceTree = SOURCE_ROOT; };
+		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		OBJ_9 /* EmptySequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySequence.swift; sourceTree = "<group>"; };
+		"SwiftLibXML::SwiftLibXML::Product" /* SwiftLibXML.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftLibXML.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"SwiftLibXML::SwiftLibXMLTests::Product" /* SwiftLibXMLTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = SwiftLibXMLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		F1DA0D0D1CE848BB00BC5143 /* Frameworks */ = {
+		OBJ_33 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 0;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F1DA0D181CE848BB00BC5143 /* Frameworks */ = {
+		OBJ_51 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 0;
 			files = (
-				F1DA0D1C1CE848BB00BC5143 /* SwiftLibXML.framework in Frameworks */,
+				OBJ_52 /* SwiftLibXML.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F1DA0D071CE848BB00BC5143 = {
+		OBJ_15 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				F1DA0D2B1CE8494700BC5143 /* Sources */,
-				F1DA0D131CE848BB00BC5143 /* SwiftLibXML */,
-				F1DA0D1F1CE848BB00BC5143 /* SwiftLibXMLTests */,
-				F1DA0D121CE848BB00BC5143 /* Products */,
+				OBJ_16 /* SwiftLibXMLTests */,
 			);
-			sourceTree = "<group>";
+			name = Tests;
+			sourceTree = SOURCE_ROOT;
 		};
-		F1DA0D121CE848BB00BC5143 /* Products */ = {
+		OBJ_16 /* SwiftLibXMLTests */ = {
 			isa = PBXGroup;
 			children = (
-				F1DA0D111CE848BB00BC5143 /* SwiftLibXML.framework */,
-				F1DA0D1B1CE848BB00BC5143 /* SwiftLibXMLTests.xctest */,
+				OBJ_17 /* SwiftLibXMLTests.swift */,
+			);
+			name = SwiftLibXMLTests;
+			path = Tests/SwiftLibXMLTests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_19 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				"SwiftLibXML::SwiftLibXMLTests::Product" /* SwiftLibXMLTests.xctest */,
+				"SwiftLibXML::SwiftLibXML::Product" /* SwiftLibXML.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
+			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		F1DA0D131CE848BB00BC5143 /* SwiftLibXML */ = {
+		OBJ_5 /*  */ = {
 			isa = PBXGroup;
 			children = (
-				F1DA0D141CE848BB00BC5143 /* SwiftLibXML.h */,
-				F1DA0D381CE849E000BC5143 /* SwiftLibXML-Swift.h */,
-				F1DA0D161CE848BB00BC5143 /* Info.plist */,
+				OBJ_6 /* Package.swift */,
+				OBJ_7 /* Sources */,
+				OBJ_15 /* Tests */,
+				OBJ_18 /* SwiftLibXML */,
+				OBJ_19 /* Products */,
 			);
-			path = SwiftLibXML;
+			name = "";
 			sourceTree = "<group>";
 		};
-		F1DA0D1F1CE848BB00BC5143 /* SwiftLibXMLTests */ = {
+		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				F1DA0D201CE848BB00BC5143 /* SwiftLibXMLTests.swift */,
-				F1DA0D221CE848BB00BC5143 /* Info.plist */,
+				OBJ_8 /* SwiftLibXML */,
 			);
-			path = SwiftLibXMLTests;
-			sourceTree = "<group>";
+			name = Sources;
+			sourceTree = SOURCE_ROOT;
 		};
-		F1DA0D2B1CE8494700BC5143 /* Sources */ = {
+		OBJ_8 /* SwiftLibXML */ = {
 			isa = PBXGroup;
 			children = (
-				F1DA0D2C1CE8494700BC5143 /* EmptySequence.swift */,
-				F1DA0D2D1CE8494700BC5143 /* XMLAttribute.swift */,
-				F1DA0D2E1CE8494700BC5143 /* XMLDocument.swift */,
-				F1DA0D2F1CE8494700BC5143 /* XMLElement.swift */,
-				F1DA0D301CE8494700BC5143 /* XMLNameSpace.swift */,
-				F1DA0D311CE8494700BC5143 /* XMLPath.swift */,
+				OBJ_9 /* EmptySequence.swift */,
+				OBJ_10 /* XMLAttribute.swift */,
+				OBJ_11 /* XMLDocument.swift */,
+				OBJ_12 /* XMLElement.swift */,
+				OBJ_13 /* XMLNameSpace.swift */,
+				OBJ_14 /* XMLPath.swift */,
 			);
-			path = Sources;
-			sourceTree = "<group>";
+			name = SwiftLibXML;
+			path = Sources/SwiftLibXML;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		F1DA0D0E1CE848BB00BC5143 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F1DA0D151CE848BB00BC5143 /* SwiftLibXML.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
-		F1DA0D101CE848BB00BC5143 /* SwiftLibXML */ = {
+		"SwiftLibXML::SwiftLibXML" /* SwiftLibXML */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F1DA0D251CE848BB00BC5143 /* Build configuration list for PBXNativeTarget "SwiftLibXML" */;
+			buildConfigurationList = OBJ_23 /* Build configuration list for PBXNativeTarget "SwiftLibXML" */;
 			buildPhases = (
-				F1DA0D0C1CE848BB00BC5143 /* Sources */,
-				F1DA0D0D1CE848BB00BC5143 /* Frameworks */,
-				F1DA0D0E1CE848BB00BC5143 /* Headers */,
-				F1DA0D0F1CE848BB00BC5143 /* Resources */,
+				OBJ_26 /* Sources */,
+				OBJ_33 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -143,312 +158,365 @@
 			);
 			name = SwiftLibXML;
 			productName = SwiftLibXML;
-			productReference = F1DA0D111CE848BB00BC5143 /* SwiftLibXML.framework */;
+			productReference = "SwiftLibXML::SwiftLibXML::Product" /* SwiftLibXML.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		F1DA0D1A1CE848BB00BC5143 /* SwiftLibXMLTests */ = {
+		"SwiftLibXML::SwiftLibXMLTests" /* SwiftLibXMLTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F1DA0D281CE848BB00BC5143 /* Build configuration list for PBXNativeTarget "SwiftLibXMLTests" */;
+			buildConfigurationList = OBJ_46 /* Build configuration list for PBXNativeTarget "SwiftLibXMLTests" */;
 			buildPhases = (
-				F1DA0D171CE848BB00BC5143 /* Sources */,
-				F1DA0D181CE848BB00BC5143 /* Frameworks */,
-				F1DA0D191CE848BB00BC5143 /* Resources */,
+				OBJ_49 /* Sources */,
+				OBJ_51 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				F1DA0D1E1CE848BB00BC5143 /* PBXTargetDependency */,
+				OBJ_53 /* PBXTargetDependency */,
 			);
 			name = SwiftLibXMLTests;
 			productName = SwiftLibXMLTests;
-			productReference = F1DA0D1B1CE848BB00BC5143 /* SwiftLibXMLTests.xctest */;
+			productReference = "SwiftLibXML::SwiftLibXMLTests::Product" /* SwiftLibXMLTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		"SwiftLibXML::SwiftPMPackageDescription" /* SwiftLibXMLPackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_35 /* Build configuration list for PBXNativeTarget "SwiftLibXMLPackageDescription" */;
+			buildPhases = (
+				OBJ_38 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftLibXMLPackageDescription;
+			productName = SwiftLibXMLPackageDescription;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		F1DA0D081CE848BB00BC5143 /* Project object */ = {
+		OBJ_1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0800;
-				ORGANIZATIONNAME = "Rene Hexel";
-				TargetAttributes = {
-					F1DA0D101CE848BB00BC5143 = {
-						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0800;
-					};
-					F1DA0D1A1CE848BB00BC5143 = {
-						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0800;
-					};
-				};
+				LastUpgradeCheck = 9999;
 			};
-			buildConfigurationList = F1DA0D0B1CE848BB00BC5143 /* Build configuration list for PBXProject "SwiftLibXML" */;
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "SwiftLibXML" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = F1DA0D071CE848BB00BC5143;
-			productRefGroup = F1DA0D121CE848BB00BC5143 /* Products */;
+			mainGroup = OBJ_5 /*  */;
+			productRefGroup = OBJ_19 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F1DA0D101CE848BB00BC5143 /* SwiftLibXML */,
-				F1DA0D1A1CE848BB00BC5143 /* SwiftLibXMLTests */,
+				"SwiftLibXML::SwiftLibXML" /* SwiftLibXML */,
+				"SwiftLibXML::SwiftPMPackageDescription" /* SwiftLibXMLPackageDescription */,
+				"SwiftLibXML::SwiftLibXMLPackageTests::ProductTarget" /* SwiftLibXMLPackageTests */,
+				"SwiftLibXML::SwiftLibXMLTests" /* SwiftLibXMLTests */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		F1DA0D0F1CE848BB00BC5143 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F1DA0D191CE848BB00BC5143 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		F1DA0D0C1CE848BB00BC5143 /* Sources */ = {
+		OBJ_26 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 0;
 			files = (
-				F1DA0D341CE8494700BC5143 /* XMLDocument.swift in Sources */,
-				F1DA0D331CE8494700BC5143 /* XMLAttribute.swift in Sources */,
-				F1DA0D361CE8494700BC5143 /* XMLNameSpace.swift in Sources */,
-				F1DA0D351CE8494700BC5143 /* XMLElement.swift in Sources */,
-				F1DA0D371CE8494700BC5143 /* XMLPath.swift in Sources */,
-				F1DA0D321CE8494700BC5143 /* EmptySequence.swift in Sources */,
+				OBJ_27 /* EmptySequence.swift in Sources */,
+				OBJ_28 /* XMLAttribute.swift in Sources */,
+				OBJ_29 /* XMLDocument.swift in Sources */,
+				OBJ_30 /* XMLElement.swift in Sources */,
+				OBJ_31 /* XMLNameSpace.swift in Sources */,
+				OBJ_32 /* XMLPath.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F1DA0D171CE848BB00BC5143 /* Sources */ = {
+		OBJ_38 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 0;
 			files = (
-				F1DA0D211CE848BB00BC5143 /* SwiftLibXMLTests.swift in Sources */,
+				OBJ_39 /* Package.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_49 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_50 /* SwiftLibXMLTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		F1DA0D1E1CE848BB00BC5143 /* PBXTargetDependency */ = {
+		OBJ_44 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F1DA0D101CE848BB00BC5143 /* SwiftLibXML */;
-			targetProxy = F1DA0D1D1CE848BB00BC5143 /* PBXContainerItemProxy */;
+			target = "SwiftLibXML::SwiftLibXMLTests" /* SwiftLibXMLTests */;
+			targetProxy = F1DDDEA3214C9AD10066FD01 /* PBXContainerItemProxy */;
+		};
+		OBJ_53 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SwiftLibXML::SwiftLibXML" /* SwiftLibXML */;
+			targetProxy = F1DDDEA2214C9AD00066FD01 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		F1DA0D231CE848BB00BC5143 /* Debug */ = {
+		OBJ_24 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/include/libxml2,
+					"$(TOOLCHAIN)/usr/include/libxml2",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SwiftLibXML.xcodeproj/SwiftLibXML_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lxml2.2",
+					"$(inherited)",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SwiftLibXML;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = SwiftLibXML;
+			};
+			name = Debug;
+		};
+		OBJ_25 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/include/libxml2,
+					"$(TOOLCHAIN)/usr/include/libxml2",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SwiftLibXML.xcodeproj/SwiftLibXML_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lxml2.2",
+					"$(inherited)",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SwiftLibXML;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = SwiftLibXML;
+			};
+			name = Release;
+		};
+		OBJ_3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					/usr/local/include,
-					/usr/local/include/libxml2,
-					/usr/local/Cellar/libxml2/2.9.3/include,
-					/usr/local/Cellar/libxml2/2.9.3/include/libxml2,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MTL_ENABLE_DEBUG_INFO = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/SwiftLibXML $(SRCROOT)/Sources $(SRCROOT)/../CLibXML2";
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "SWIFT_PACKAGE DEBUG";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
+				USE_HEADERMAP = NO;
 			};
 			name = Debug;
 		};
-		F1DA0D241CE848BB00BC5143 /* Release */ = {
+		OBJ_36 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Developer/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		OBJ_37 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Developer/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		OBJ_4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					/usr/local/include,
-					/usr/local/include/libxml2,
-					/usr/local/Cellar/libxml2/2.9.3/include,
-					/usr/local/Cellar/libxml2/2.9.3/include/libxml2,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MTL_ENABLE_DEBUG_INFO = NO;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = s;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/SwiftLibXML $(SRCROOT)/Sources $(SRCROOT)/../CLibXML2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				USE_HEADERMAP = NO;
 			};
 			name = Release;
 		};
-		F1DA0D261CE848BB00BC5143 /* Debug */ = {
+		OBJ_42 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = SwiftLibXML/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks /Library/Developer/Toolchains/swift-latest.xctoolchain/usr/lib/swift/macosx";
-				PRODUCT_BUNDLE_IDENTIFIER = at.hexel.SwiftLibXML;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
-		F1DA0D271CE848BB00BC5143 /* Release */ = {
+		OBJ_43 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = SwiftLibXML/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks /Library/Developer/Toolchains/swift-latest.xctoolchain/usr/lib/swift/macosx";
-				PRODUCT_BUNDLE_IDENTIFIER = at.hexel.SwiftLibXML;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
-		F1DA0D291CE848BB00BC5143 /* Debug */ = {
+		OBJ_47 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = SwiftLibXMLTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = at.hexel.SwiftLibXMLTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/include/libxml2,
+					"$(TOOLCHAIN)/usr/include/libxml2",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SwiftLibXML.xcodeproj/SwiftLibXMLTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lxml2.2",
+					"$(inherited)",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = SwiftLibXMLTests;
 			};
 			name = Debug;
 		};
-		F1DA0D2A1CE848BB00BC5143 /* Release */ = {
+		OBJ_48 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = SwiftLibXMLTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = at.hexel.SwiftLibXMLTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/include/libxml2,
+					"$(TOOLCHAIN)/usr/include/libxml2",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SwiftLibXML.xcodeproj/SwiftLibXMLTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lxml2.2",
+					"$(inherited)",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = SwiftLibXMLTests;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F1DA0D0B1CE848BB00BC5143 /* Build configuration list for PBXProject "SwiftLibXML" */ = {
+		OBJ_2 /* Build configuration list for PBXProject "SwiftLibXML" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F1DA0D231CE848BB00BC5143 /* Debug */,
-				F1DA0D241CE848BB00BC5143 /* Release */,
+				OBJ_3 /* Debug */,
+				OBJ_4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F1DA0D251CE848BB00BC5143 /* Build configuration list for PBXNativeTarget "SwiftLibXML" */ = {
+		OBJ_23 /* Build configuration list for PBXNativeTarget "SwiftLibXML" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F1DA0D261CE848BB00BC5143 /* Debug */,
-				F1DA0D271CE848BB00BC5143 /* Release */,
+				OBJ_24 /* Debug */,
+				OBJ_25 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F1DA0D281CE848BB00BC5143 /* Build configuration list for PBXNativeTarget "SwiftLibXMLTests" */ = {
+		OBJ_35 /* Build configuration list for PBXNativeTarget "SwiftLibXMLPackageDescription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F1DA0D291CE848BB00BC5143 /* Debug */,
-				F1DA0D2A1CE848BB00BC5143 /* Release */,
+				OBJ_36 /* Debug */,
+				OBJ_37 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_41 /* Build configuration list for PBXAggregateTarget "SwiftLibXMLPackageTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_42 /* Debug */,
+				OBJ_43 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_46 /* Build configuration list for PBXNativeTarget "SwiftLibXMLTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_47 /* Debug */,
+				OBJ_48 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = F1DA0D081CE848BB00BC5143 /* Project object */;
+	rootObject = OBJ_1 /* Project object */;
 }

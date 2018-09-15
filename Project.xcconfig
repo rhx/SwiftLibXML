@@ -1,0 +1,2 @@
+OTHER_LDFLAGS = $(inherited) -L/usr/local/lib -lxml
+HEADER_SEARCH_PATHS = $(inherited) $(SDKROOT)/usr/include/libxml2 /usr/include/libxml2 /usr/local/include

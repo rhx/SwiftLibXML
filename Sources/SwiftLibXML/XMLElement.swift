@@ -3,15 +3,18 @@
 //  Gtk3Swift
 //
 //  Created by Rene Hexel on 24/03/2016.
-//  Copyright © 2016 Rene Hexel. All rights reserved.
+//  Copyright © 2016, 2018 Rene Hexel. All rights reserved.
 //
 #if os(Linux)
     import Glibc
 #else
     import Darwin
 #endif
-
-import CLibXML2
+#if swift(>=4.1)
+    import libxml2
+#else
+    import CLibXML2
+#endif
 
 ///
 /// A wrapper around libxml2 xmlElement
