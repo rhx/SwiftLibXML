@@ -5,15 +5,23 @@ import PackageDescription
 
 let pkgName = "SwiftLibXML"
 
-#if swift(>=4.1)
-let deps = [Package.Dependency]()
+let targets: [Target]
+#if os(macOS)
+    targets = [
+        .target(name: pkgName, dependencies: []),
+        .testTarget(name: "\(pkgName)Tests", dependencies: [.byNameItem(name: pkgName)]),
+    ]
 #else
-let deps: [Package.Dependency] = [ .package(url: "https://github.com/rhx/CLibXML2.git", from: "1.0.0"), ]
+    targets = [
+        .target(name: pkgName, dependencies: ["libxml2"]),
+        .systemLibrary(name: "libxml2")
+        .testTarget(name: "\(pkgName)Tests", dependencies: [.byNameItem(name: pkgName)]),
+    ]
 #endif
 
 let package = Package(name: pkgName,
     products: [ .library(name: pkgName, targets: [pkgName]), ],
-    dependencies: deps,
+    dependencies: [],
     targets: [
         .target(name: pkgName, dependencies: []),
         .testTarget(name: "\(pkgName)Tests", dependencies: [.byNameItem(name: pkgName)]),
