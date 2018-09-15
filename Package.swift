@@ -5,23 +5,15 @@ import PackageDescription
 
 let pkgName = "SwiftLibXML"
 
-let targets: [Target]
-#if os(macOS)
-    targets = [
-        .target(name: pkgName, dependencies: []),
-        .testTarget(name: "\(pkgName)Tests", dependencies: [.byNameItem(name: pkgName)]),
-    ]
+#if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
+let deps = [Package.Dependency]()
 #else
-    targets = [
-        .target(name: pkgName, dependencies: ["libxml2"]),
-        .systemLibrary(name: "libxml2")
-        .testTarget(name: "\(pkgName)Tests", dependencies: [.byNameItem(name: pkgName)]),
-    ]
+let deps: [Package.Dependency] = [ .package(url: "https://github.com/rhx/CLibXML2.git", from: "1.0.0"), ]
 #endif
 
 let package = Package(name: pkgName,
     products: [ .library(name: pkgName, targets: [pkgName]), ],
-    dependencies: [],
+    dependencies: deps,
     targets: [
         .target(name: pkgName, dependencies: []),
         .testTarget(name: "\(pkgName)Tests", dependencies: [.byNameItem(name: pkgName)]),
