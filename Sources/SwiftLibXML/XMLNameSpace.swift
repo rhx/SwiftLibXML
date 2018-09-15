@@ -7,13 +7,10 @@
 //
 #if os(Linux)
     import Glibc
+    import CLibXML2
 #else
     import Darwin
-#endif
-#if swift(>=4.1)
     import libxml2
-#else
-    import CLibXML2
 #endif
 
 ///
