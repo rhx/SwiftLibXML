@@ -8,7 +8,7 @@ let pkgName = "SwiftLibXML"
 #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
 let deps = [Package.Dependency]()
 #else
-let deps: [Package.Dependency] = [ .package(url: "https://github.com/rhx/CLibXML2.git", from: "1.0.0"), ]
+let deps: [Package.Dependency] = [ .package(url: "https://github.com/rhx/CLibXML2.git", .branch("master")) ]
 #endif
 
 let package = Package(name: pkgName,
