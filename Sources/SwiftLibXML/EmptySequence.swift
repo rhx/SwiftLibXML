@@ -1,9 +1,9 @@
 //
 //  EmptySequence.swift
-//  Gtk3Swift
+//  SwiftLibXML
 //
 //  Created by Rene Hexel on 25/03/2016.
-//  Copyright © 2016 Rene Hexel. All rights reserved.
+//  Copyright © 2016, 2019 Rene Hexel. All rights reserved.
 //
 
 /// Function returning an iterator for an empty sequence of T
@@ -13,5 +13,5 @@ public func emptyIterator<T>() -> AnyIterator<T> {
 
 /// Function returning an empty sequence of T
 public func emptySequence<T>() -> AnySequence<T> {
-    return AnySequence(EmptyIterator())
+    return AnySequence(EmptyCollection.Iterator())
 }
