@@ -1,21 +1,27 @@
-// swift-tools-version:4.0
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version:4.2
 
 import PackageDescription
 
 let pkgName = "SwiftLibXML"
 
 #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
-let deps = [Package.Dependency]()
+let deps = [Target.Dependency]()
+let cTargets = [Target]()
 #else
-let deps: [Package.Dependency] = [ .package(url: "https://github.com/rhx/CLibXML2.git", from: "1.0.0"), ]
+let deps: [Target.Dependency] = [ .target(name: "CLibXML2") ]
+let cTargets: [Target] = [
+    .systemLibrary(name: "CLibXML2", pkgConfig: "libxml-2.0",
+                  providers: [
+                    .brew(["libxml2"]),
+                    .apt(["libxml2-dev"])
+    ])
+]
 #endif
 
 let package = Package(name: pkgName,
     products: [ .library(name: pkgName, targets: [pkgName]), ],
-    dependencies: deps,
-    targets: [
-        .target(name: pkgName, dependencies: []),
-        .testTarget(name: "\(pkgName)Tests", dependencies: [.byNameItem(name: pkgName)]),
+    targets: cTargets + [
+        .target(name: pkgName, dependencies: deps),
+        .testTarget(name: "\(pkgName)Tests", dependencies: [.target(name: pkgName)]),
     ]
 )
