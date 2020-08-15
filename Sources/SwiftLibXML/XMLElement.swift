@@ -1,9 +1,9 @@
 //
 //  XMLElement.swift
-//  Gtk3Swift
+//  SwiftLibXML
 //
 //  Created by Rene Hexel on 24/03/2016.
-//  Copyright © 2016, 2018 Rene Hexel. All rights reserved.
+//  Copyright © 2016, 2018, 2020 Rene Hexel. All rights reserved.
 //
 #if os(Linux)
     import Glibc
@@ -65,18 +65,28 @@ extension XMLElement {
     }
 
     /// return the value of a given attribute
+    /// - Parameters:
+    ///   - name: The name of the attribute to examine
+    /// - Returns: The content of the attribute or `nil` if not found
     public func attribute(named n: String) -> String? {
         let value: UnsafeMutablePointer<xmlChar>? = xmlGetProp(node, n)
-        return value.map { String(cString: UnsafePointer<xmlChar>($0)) } ?? ""
+        return value.map { String(cString: UnsafePointer<xmlChar>($0)) }
     }
 
     /// return the value of a given attribute in a given name space
+    /// - Parameters:
+    ///   - name: The name of the attribute to examine
+    ///   - namespace: The namespace for the attribute
+    /// - Returns: The content of the attribute or `nil` if not found
     public func attribute(named name: String, namespace: String) -> String? {
         let value: UnsafeMutablePointer<xmlChar>? = xmlGetNsProp(node, name, namespace)
-        return value.map { String(cString: UnsafePointer<xmlChar>($0)) } ?? ""
+        return value.map { String(cString: UnsafePointer<xmlChar>($0)) }
     }
 
     /// return the boolean value of a given attribute
+    /// - Parameters:
+    ///   - name: The name of the attribute to examine
+    /// - Returns: `true` if the attribute exists and has a non-zero value
     public func bool(named n: String) -> Bool {
         if let str = attribute(named: n),
            let val = Int(str), val != 0 {
@@ -87,6 +97,10 @@ extension XMLElement {
     }
 
     /// return the boolean value of a given attribute in a given name space
+    /// - Parameters:
+    ///   - name: The name of the attribute to examine
+    ///   - namespace: The namespace for the attribute
+    /// - Returns: `true` if the attribute exists and has a non-zero value
     public func bool(named n: String, namespace: String) -> Bool {
         if let str = attribute(named: n, namespace:  namespace),
            let val = Int(str), val != 0 {

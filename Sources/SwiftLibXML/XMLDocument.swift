@@ -1,9 +1,9 @@
 //
 //  XMLDocument.swift
-//  Gtk3Swift
+//  SwiftLibXML
 //
 //  Created by Rene Hexel on 24/03/2016.
-//  Copyright © 2016, 2018 Rene Hexel. All rights reserved.
+//  Copyright © 2016, 2018, 2020 Rene Hexel. All rights reserved.
 //
 #if os(Linux)
     import Glibc
