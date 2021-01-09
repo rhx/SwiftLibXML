@@ -14,19 +14,18 @@ else
 	LINKFLAGS=`pkg-config --libs libxml-2.0 | tr ' ' '\n' | sed 's/^/-Xlinker /' | tr '\n' ' '`
 	CCFLAGS=`pkg-config --cflags libxml-2.0 | tr ' ' '\n' | sed 's/^/-Xcc /' | tr '\n' ' ' `
 fi
-mkdir -p .build
-( cd .build								&& \
-  cp -p ../Project.xcconfig Project.xcconfig.in				&& \
-  echo 'SWIFT_VERSION = 4.1' >> Project.xcconfig.in			&& \
+swift package generate-xcodeproj "$@"
+[ ! -e ${Mod}.xcodeproj/Configs ] ||					   \
+( cd ${Mod}.xcodeproj/Configs						&& \
+  mv Project.xcconfig Project.xcconfig.in				&& \
+  echo 'SWIFT_VERSION = 5.2' >> Project.xcconfig.in			&& \
   sed -e 's/ -I ?[^ ]*//g' < Project.xcconfig.in > Project.xcconfig	&& \
   grep 'OTHER_CFLAGS' < Project.xcconfig.in | sed 's/-I */-I/g'		|  \
     tr ' ' '\n' | grep -- -I | tr '\n' ' '				|  \
     sed -e 's/^/HEADER_SEARCH_PATHS = /' -e 's/ -I/ /g' >> Project.xcconfig
 )
-swift package generate-xcodeproj "$@" # --xcconfig-overrides .build/Project.xcconfig "$@"
 ( cd ${Mod}.xcodeproj							&& \
   mv project.pbxproj project.pbxproj.in					&& \
   sed < project.pbxproj.in > project.pbxproj				   \
-    -e "s|\(HEADER_SEARCH_PATHS = .\)$|\\1 "'"$(inherited)"'" `echo $CCFLAGS | sed -e 's/ *-Xcc  *-I */, /g' | tr ' ' '\n' | sed -e 's/^ */"/' -e 's/ *$/"/' -e 's/"" *//g' -e 's/ *","/,/g' -e 's/,"/",/g' | tr '\n' ' '`,|"						   \
-    -e "s|\(OTHER_LDFLAGS = .\)$|\\1 "'"$(inherited)",'" `echo $LINKFLAGS | sed -e 's/ *-l */ -l/g' | tr ' ' '\n' | sed -e 's/^ */"/' -e 's/ *$/"/' -e 's/"" *//g' | tr '\n' ' '`,|"
+    -e "s|\(HEADER_SEARCH_PATHS = .\)$|\\1 \"`echo $CCFLAGS | sed -e 's/-Xcc  *-I */ /g' -e 's/^ *//' -e 's/ *$//'`\",|"
 )

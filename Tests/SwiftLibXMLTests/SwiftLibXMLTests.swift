@@ -3,7 +3,7 @@
 //  SwiftLibXMLTests
 //
 //  Created by Rene Hexel on 15/05/2016.
-//  Copyright © 2016 Rene Hexel. All rights reserved.
+//  Copyright © 2016, 2021 Rene Hexel. All rights reserved.
 //
 
 import XCTest
@@ -34,3 +34,13 @@ class SwiftLibXMLTests: XCTestCase {
     }
     
 }
+
+extension SwiftLibXMLTests {
+    static var allTests: [(String, (SwiftLibXMLTests) -> () throws -> Void)] {
+        return [
+            ("testExample",            testExample),
+            ("testPerformanceExample", testPerformanceExample),
+        ]
+    }
+}
+

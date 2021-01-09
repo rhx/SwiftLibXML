@@ -1,7 +1,6 @@
 import XCTest
+@testable import SwiftLibXMLTests
 
-import SwiftLibXMLTests
-
-var tests = [XCTestCaseEntry]()
-tests += SwiftLibXMLTests.allTests()
-XCTMain(tests)
+XCTMain([
+    testCase(SwiftLibXMLTests.allTests),
+])
