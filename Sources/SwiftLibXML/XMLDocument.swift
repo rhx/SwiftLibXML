@@ -12,6 +12,12 @@ import Foundation
     import libxml2
 #endif
 
+/// In-memory XML parser
+public let xmlMemoryParser = xmlReadMemory
+
+/// In-memory HTML parser
+public let htmlMemoryParser = htmlReadMemory
+
 ///
 /// A wrapper around libxml2 xmlDoc
 ///
@@ -32,8 +38,8 @@ public class XMLDocument {
     /// - Parameters:
     ///   - data: The data to use for initialisation
     ///   - options: The parser options to use
-    ///   - parser: The parse function to use; defaults to`xmlReadMemory`
-    @inlinable public convenience init?(data: Data, options: ParserOptions = [.noWarning, .noError, .recover, .noNet], parser parse: (UnsafePointer<CChar>?, Int32, UnsafePointer<CChar>?, UnsafePointer<CChar>?, Int32) -> xmlDocPtr? = xmlReadMemory) {
+    ///   - parser: The parse function to use; defaults to`xmlMemoryParser`
+    @inlinable public convenience init?(data: Data, options: ParserOptions = [.noWarning, .noError, .recover, .noNet], parser parse: (UnsafePointer<CChar>?, Int32, UnsafePointer<CChar>?, UnsafePointer<CChar>?, Int32) -> xmlDocPtr? = xmlMemoryParser) {
         guard let xml = data.withUnsafeBytes({ (buffer: UnsafeRawBufferPointer) -> xmlDocPtr? in
             guard let base = buffer.baseAddress?.assumingMemoryBound(to: CChar.self) else { return nil }
             return parse(base, Int32(buffer.count), "", nil, Int32(bitPattern: options.rawValue))
@@ -45,8 +51,8 @@ public class XMLDocument {
     /// - Parameters:
     ///   - buffer: The buffer containing the XML to parse
     ///   - options: The parser options to use
-    ///   - parser: The parse function to use; defaults to`xmlReadMemory`
-    @inlinable public convenience init?(buffer: UnsafeBufferPointer<CChar>, options: ParserOptions = [.noWarning, .noError, .recover, .noNet], parser parse: (UnsafePointer<CChar>?, Int32, UnsafePointer<CChar>?, UnsafePointer<CChar>?, Int32) -> xmlDocPtr? = xmlReadMemory) {
+    ///   - parser: The parse function to use; defaults to`xmlMemoryParser`
+    @inlinable public convenience init?(buffer: UnsafeBufferPointer<CChar>, options: ParserOptions = [.noWarning, .noError, .recover, .noNet], parser parse: (UnsafePointer<CChar>?, Int32, UnsafePointer<CChar>?, UnsafePointer<CChar>?, Int32) -> xmlDocPtr? = xmlMemoryParser) {
         guard let base = buffer.baseAddress,
               let xml = parse(base, Int32(buffer.count), "", nil, Int32(bitPattern: options.rawValue)) else { return nil }
         self.init(xmlDocument: xml)
@@ -152,7 +158,7 @@ extension XMLDocument.ParserOptions: OptionSet {
 //
 extension XMLDocument: Sequence {
     public typealias Iterator = XMLElement.Iterator
-    public func makeIterator() -> Iterator {
+    @inlinable public func makeIterator() -> Iterator {
         return Iterator(root: rootElement)
     }
 }

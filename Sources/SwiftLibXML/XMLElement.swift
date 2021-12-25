@@ -3,7 +3,7 @@
 //  SwiftLibXML
 //
 //  Created by Rene Hexel on 24/03/2016.
-//  Copyright © 2016, 2018, 2020 Rene Hexel. All rights reserved.
+//  Copyright © 2016, 2018, 2020, 2021 Rene Hexel. All rights reserved.
 //
 #if os(Linux)
     import Glibc
@@ -17,18 +17,25 @@
 /// A wrapper around libxml2 xmlElement
 ///
 public struct XMLElement {
-    let node: xmlNodePtr
+    /// The underlying node
+    @usableFromInline let node: xmlNodePtr
+
+    /// Default initialiser
+    /// - Parameter node: The underlying XML node to wrap
+    @usableFromInline init(node: xmlNodePtr) {
+        self.node = node
+    }
 }
 
 extension XMLElement {
     /// name of the XML element
-    public var name: String {
+    @inlinable public var name: String {
         let name: UnsafePointer<xmlChar>? = node.pointee.name
         return name.map { String(cString: UnsafePointer($0)) } ?? ""
     }
 
     /// content of the XML element
-    public var content: String {
+    @inlinable public var content: String {
         let content: UnsafeMutablePointer<xmlChar>? = xmlNodeGetContent(node)
         let txt = content.map { String(cString: UnsafePointer<xmlChar>($0)) } ?? ""
         xmlFree(content)
@@ -36,30 +43,30 @@ extension XMLElement {
     }
 
     /// attributes of the XML element
-    public var attributes: AnySequence<XMLAttribute> {
+    @inlinable public var attributes: AnySequence<XMLAttribute> {
         guard node.pointee.properties != nil else { return emptySequence() }
         return AnySequence { XMLAttribute(attr: self.node.pointee.properties).makeIterator() }
     }
 
     /// parent of the XML element
-    public var parent: XMLElement {
+    @inlinable public var parent: XMLElement {
         return XMLElement(node: node.pointee.parent)
     }
 
     /// siblings of the XML element
-    public var siblings: AnySequence<XMLElement> {
+    @inlinable public var siblings: AnySequence<XMLElement> {
         guard node.pointee.next != nil else { return emptySequence() }
         return AnySequence { XMLElement(node: self.node.pointee.next).levelIterator() }
     }
 
     /// children of the XML element
-    public var children: AnySequence<XMLElement> {
+    @inlinable public var children: AnySequence<XMLElement> {
         guard node.pointee.children != nil else { return emptySequence() }
         return AnySequence { XMLElement(node: self.node.pointee.children).levelIterator() }
     }
 
     /// recursive pre-order descendants of the XML element
-    public var descendants: AnySequence<XMLElement> {
+    @inlinable public var descendants: AnySequence<XMLElement> {
         guard node.pointee.children != nil else { return emptySequence() }
         return AnySequence { XMLElement(node: self.node.pointee.children).makeIterator() }
     }
@@ -68,7 +75,7 @@ extension XMLElement {
     /// - Parameters:
     ///   - name: The name of the attribute to examine
     /// - Returns: The content of the attribute or `nil` if not found
-    public func attribute(named n: String) -> String? {
+    @inlinable public func attribute(named n: String) -> String? {
         let value: UnsafeMutablePointer<xmlChar>? = xmlGetProp(node, n)
         return value.map { String(cString: UnsafePointer<xmlChar>($0)) }
     }
@@ -78,7 +85,7 @@ extension XMLElement {
     ///   - name: The name of the attribute to examine
     ///   - namespace: The namespace for the attribute
     /// - Returns: The content of the attribute or `nil` if not found
-    public func attribute(named name: String, namespace: String) -> String? {
+    @inlinable public func attribute(named name: String, namespace: String) -> String? {
         let value: UnsafeMutablePointer<xmlChar>? = xmlGetNsProp(node, name, namespace)
         return value.map { String(cString: UnsafePointer<xmlChar>($0)) }
     }
@@ -87,7 +94,7 @@ extension XMLElement {
     /// - Parameters:
     ///   - name: The name of the attribute to examine
     /// - Returns: `true` if the attribute exists and has a non-zero value
-    public func bool(named n: String) -> Bool {
+    @inlinable public func bool(named n: String) -> Bool {
         if let str = attribute(named: n),
            let val = Int(str), val != 0 {
             return true
@@ -101,7 +108,7 @@ extension XMLElement {
     ///   - name: The name of the attribute to examine
     ///   - namespace: The namespace for the attribute
     /// - Returns: `true` if the attribute exists and has a non-zero value
-    public func bool(named n: String, namespace: String) -> Bool {
+    @inlinable public func bool(named n: String, namespace: String) -> Bool {
         if let str = attribute(named: n, namespace:  namespace),
            let val = Int(str), val != 0 {
             return true
@@ -111,17 +118,73 @@ extension XMLElement {
     }
 }
 
+//
+// MARK: - Comparison
+//
+extension XMLElement: Equatable {
+    /// Compare the node pointers of two XML elements
+    /// and return `true` if both reference the same node
+    /// - Parameters:
+    ///   - lhs: The left hand side element
+    ///   - rhs: The right hand side element
+    /// - Returns: `true`if both XML elements reference the same node
+    @inlinable public static func===(_ lhs: XMLElement, _ rhs: XMLElement) -> Bool { lhs.node == rhs.node }
+
+    /// Compare the names of two XML elements
+    /// and return `true` if both reference the same node
+    /// or have the same name and are located within the
+    /// same namespace.
+    ///
+    /// This function simply compares the namespaces and the names.
+    /// It does not perform a full subtree walk on children and attributs.
+    /// - Parameters:
+    ///   - lhs: The left hand side element
+    ///   - rhs: The right hand side element
+    /// - Returns: `true`if both XML elements reference the same node
+    @inlinable public static func==(_ lhs: XMLElement, _ rhs: XMLElement) -> Bool {
+        lhs.node == rhs.node ||
+        (lhs.node.pointee.nsDef == rhs.node.pointee.nsDef &&
+         lhs.name == rhs.name)
+    }
+}
+
+extension XMLElement: Comparable {
+    /// Return the fully qualified namespaces in order
+    @inlinable public var namespace: String {
+        namespaces.reduce("") { $0 + ($1.prefix ?? "") }
+    }
+    /// Return the fully qualified name
+    @inlinable public var qualifiedName: String {
+        namespace + name
+    }
+    /// Compare the alphabetical order of the names of two XML elements
+    /// and return `true` if both reference different nodes,
+    /// and in a String comparison `lhs.name < rhs.name`
+    ///
+    /// This function simply compares the namespaces and the names.
+    /// It does not perform a full subtree walk on children and attributs.
+    /// - Parameters:
+    ///   - lhs: The left hand side element
+    ///   - rhs: The right hand side element
+    /// - Returns: `true`if both XML elements reference the same node
+    @inlinable public static func < (lhs: XMLElement, rhs: XMLElement) -> Bool {
+        lhs.node != rhs.node &&
+        lhs.qualifiedName < rhs.qualifiedName
+    }
+}
 
 //
 // MARK: - Conversion to String
 //
 extension XMLElement: CustomStringConvertible {
-    public var description: String { return name }
+    /// A description of the XML element
+    @inlinable public var description: String { return qualifiedName }
 }
 
 extension XMLElement: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        return "\(description): \(node.pointee.type)"
+    /// The debug description of the element
+    @inlinable public var debugDescription: String {
+        return "\(qualifiedName): \(node.pointee.type)"
     }
 }
 
@@ -141,32 +204,37 @@ extension XMLElement: Sequence {
 }
 
 
-extension XMLElement {
+public extension XMLElement {
     /// Iterator for depth-first, pre-order enumeration
-    public class Iterator: IteratorProtocol {
-        var element: XMLElement?
-        var child: Iterator?
+    class Iterator: IteratorProtocol {
+        @usableFromInline var element: XMLElement?
+        @usableFromInline var child: Iterator?
 
         /// create a generator from a root element
-        init(root: XMLElement) {
+        @usableFromInline init(root: XMLElement) {
             element = root
         }
 
         /// return the next element following a depth-first pre-order traversal
-        public func next() -> XMLElement? {
+        @inlinable public func next() -> XMLElement? {
             if let c = child {
                 if let element = c.next() { return element }         // children
                 let sibling = element?.node.pointee.next
                 element = sibling.map { XMLElement(node: $0 ) }
+            } else if let children = element?.node.pointee.children {
+                child = XMLElement(node: children).makeIterator()
+            } else {
+                let currentElement = element
+                let sibling = element?.node.pointee.next
+                element = sibling.map { XMLElement(node: $0 ) }
+                return currentElement
             }
-            let children = element?.node.pointee.children
-            child = children.map { XMLElement(node: $0).makeIterator() }
             return element
         }
     }
 
     /// Flat generator for horizontally traversing one level of the tree
-    public class LevelIterator: IteratorProtocol {
+    class LevelIterator: IteratorProtocol {
         var element: XMLElement?
 
         /// create a sibling generator from a root element
