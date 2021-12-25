@@ -9,7 +9,7 @@
 import XCTest
 @testable import SwiftLibXML
 
-class SwiftLibXMLTests: XCTestCase {
+final class SwiftLibXMLTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
@@ -34,13 +34,3 @@ class SwiftLibXMLTests: XCTestCase {
     }
     
 }
-
-extension SwiftLibXMLTests {
-    static var allTests: [(String, (SwiftLibXMLTests) -> () throws -> Void)] {
-        return [
-            ("testExample",            testExample),
-            ("testPerformanceExample", testPerformanceExample),
-        ]
-    }
-}
-
