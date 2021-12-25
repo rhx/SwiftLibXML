@@ -45,7 +45,7 @@ jobs:
           swift test
           cd ..
 
-      - name: Remove unneeded files and archive artifacts
+      - name: Remove unneeded files and archive artefacts
         run: | 
           cd SwiftLibXML
           swift package clean
@@ -86,14 +86,14 @@ jobs:
           swift test
           cd ..
 
-      - name: Remove unneeded files and archive artifacts
+      - name: Remove unneeded files and archive artefacts
         run: | 
           cd SwiftLibXML
           swift package clean
           rm -rf .build/repositories
           cd ..
 
-      - name: 'Upload Artifact'
+      - name: 'Upload Artefact'
         uses: actions/upload-artifact@v2
         with:
           name: build-artifact-20.04-5.3
