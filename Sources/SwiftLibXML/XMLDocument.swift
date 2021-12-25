@@ -28,12 +28,25 @@ public class XMLDocument {
         xmlInitParser()
     }
 
+    /// Initialise the XML parser from data with the given parser function
+    /// - Parameters:
+    ///   - data: The data to use for initialisation
+    ///   - options: The parser options to use
+    ///   - parser: The parse function to use; defaults to`xmlReadMemory`
+    @inlinable public convenience init?(data: Data, options: ParserOptions = [.noWarning, .noError, .recover, .noNet], parser parse: (UnsafePointer<CChar>?, Int32, UnsafePointer<CChar>?, UnsafePointer<CChar>?, Int32) -> xmlDocPtr? = xmlReadMemory) {
+        guard let xml = data.withUnsafeBytes({ (buffer: UnsafeRawBufferPointer) -> xmlDocPtr? in
+            guard let base = buffer.baseAddress?.assumingMemoryBound(to: CChar.self) else { return nil }
+            return parse(base, Int32(buffer.count), "", nil, Int32(bitPattern: options.rawValue))
+        }) else { return nil }
+        self.init(xmlDocument: xml)
+    }
+
     /// Failable initialiser from memory with a given parser function
     /// - Parameters:
     ///   - buffer: The buffer containing the XML to parse
     ///   - options: The parser options to use
-    ///   - parser: The parser to use; defaults to`xmlReadMemory`
-    @inlinable public convenience init?(buffer: UnsafeBufferPointer<CChar>, options: ParserOptions = [.noWarning, .noError, .recover, .noNet], parser parse: ((UnsafePointer<CChar>?, Int32, UnsafePointer<CChar>?, UnsafePointer<CChar>?, Int32) -> xmlDocPtr?) = xmlReadMemory) {
+    ///   - parser: The parse function to use; defaults to`xmlReadMemory`
+    @inlinable public convenience init?(buffer: UnsafeBufferPointer<CChar>, options: ParserOptions = [.noWarning, .noError, .recover, .noNet], parser parse: (UnsafePointer<CChar>?, Int32, UnsafePointer<CChar>?, UnsafePointer<CChar>?, Int32) -> xmlDocPtr? = xmlReadMemory) {
         guard let base = buffer.baseAddress,
               let xml = parse(base, Int32(buffer.count), "", nil, Int32(bitPattern: options.rawValue)) else { return nil }
         self.init(xmlDocument: xml)
