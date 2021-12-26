@@ -10,9 +10,11 @@ on:
   push:
     branches:
       - main
+      - development
   pull_request:
     branches:
       - main
+      - development
 jobs:
   # macOS tasks
   build-mac-swift-latest:
