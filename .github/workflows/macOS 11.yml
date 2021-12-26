@@ -16,7 +16,7 @@ on:
 
 jobs:
   # macOS tasks
-  build-mac-swift-latest:
+  build-mac-big_surswift-latest:
     runs-on: macos-11
     steps:
       - name: Checkout
