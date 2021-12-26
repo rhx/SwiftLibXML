@@ -1,0 +1,58 @@
+name: Ubuntu 18.04
+
+# Dependencies of this package
+env:
+  UBUNTU_APT: ${{ 'libxml2-dev' }}
+  
+on:
+  push:
+    branches:
+      - main
+      - development
+  pull_request:
+    branches:
+      - main
+      - development
+
+jobs:
+  # Ubuntu 18.04 tasks
+  build-ubuntu-18.04-swift-latest:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Print Swift version to confirm
+        run: swift --version
+
+      - name: Fetch dependencies for general repository
+        run: sudo apt-get install $UBUNTU_APT
+
+      - name: Checkout SwiftLibXML
+        uses: actions/checkout@v2
+        with:
+          path: SwiftLibXML
+
+      - name: Build current SwiftLibXML
+        run: |
+          cd SwiftLibXML
+          ./build.sh
+          cd ..
+
+      - name: Test SwiftLibXML
+        run: |
+          cd SwiftLibXML
+          swift test
+          cd ..
+
+      - name: Remove unneeded files and archive artefacts
+        run: | 
+          cd SwiftLibXML
+          swift package clean
+          rm -rf .build/repositories
+          cd ..
+
+      - name: 'Upload Artefact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifact-18.04-5.3
+          path: |
+            SwiftLibXML/
+          retention-days: 1

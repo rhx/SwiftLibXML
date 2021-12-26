@@ -1,6 +1,11 @@
 # SwiftLibXML
 A simple object-oriented Swift API around libxml2
 
+![macOS 11 build](https://github.com/rhx/SwiftLibXML/workflows/macOS%2011/badge.svg)
+![macOS 10.15 build](https://github.com/rhx/SwiftLibXML/workflows/macOS%2010.15/badge.svg)
+![Ubuntu 20.04 build](https://github.com/rhx/SwiftLibXML/workflows/Ubuntu%2020.04/badge.svg)
+![Ubuntu 18.04 build](https://github.com/rhx/SwiftLibXML/workflows/Ubuntu%2018.04/badge.svg)
+
 ## Prerequisites
 
 ### Swift

@@ -1,10 +1,8 @@
-name: Build SwiftLibXML
+name: macOS 11
 
 # Dependencies of Glib package
 env:
   MACOS_BREW: ${{ 'libxml2' }}
-  UBUNTU_APT: ${{ 'libxml2-dev' }}
-  
 
 on:
   push:
@@ -15,18 +13,21 @@ on:
     branches:
       - main
       - development
+
 jobs:
   # macOS tasks
   build-mac-swift-latest:
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: '13.2'
+
       - name: Print Swift version to confirm
         run: swift --version
+
       - name: Fetch dependencies for general repository
         run: brew install $MACOS_BREW
 
@@ -58,47 +59,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build-artifact-macos
-          path: |
-            SwiftLibXML/
-          retention-days: 1
-
-  # Ubuntu 20.04 tasks
-  build-ubuntu-20_04-swift-latest:
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Print Swift version to confirm
-        run: swift --version
-      - name: Fetch dependencies for general repository
-        run: sudo apt-get install $UBUNTU_APT
-
-      - name: Checkout SwiftLibXML
-        uses: actions/checkout@v2
-        with:
-          path: SwiftLibXML
-
-      - name: Build current SwiftLibXML
-        run: |
-          cd SwiftLibXML
-          ./build.sh
-          cd ..
-
-      - name: Test SwiftLibXML
-        run: |
-          cd SwiftLibXML
-          swift test
-          cd ..
-
-      - name: Remove unneeded files and archive artefacts
-        run: | 
-          cd SwiftLibXML
-          swift package clean
-          rm -rf .build/repositories
-          cd ..
-
-      - name: 'Upload Artefact'
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-artifact-20.04-5.3
           path: |
             SwiftLibXML/
           retention-days: 1
