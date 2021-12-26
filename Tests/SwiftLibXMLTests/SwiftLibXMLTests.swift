@@ -60,9 +60,9 @@ final class SwiftLibXMLTests: XCTestCase {
 
     func testEmptyXML() throws {
         let xmlData = Data(emptyXML.utf8)
-        let document = SwiftLibXML.XMLDocument(data: xmlData)
-        XCTAssertNotNil(document)
-        guard let document = document else { return }
+        let doc = SwiftLibXML.XMLDocument(data: xmlData)
+        XCTAssertNotNil(doc)
+        guard let document = doc else { return }
         var previousElement: SwiftLibXML.XMLElement?
         let n = try document.reduce(0) {
             if $1.node == previousElement?.node { throw "\($1.name) @ \($1.node) === \(previousElement!.name) @ \(previousElement!.node) "}
@@ -70,17 +70,17 @@ final class SwiftLibXMLTests: XCTestCase {
             return $0 + 1
         }
         XCTAssertEqual(n, 1)
-        let node = document.makeIterator().next()
-        XCTAssertNotNil(node)
-        guard let node = node else { return }
+        let nd = document.makeIterator().next()
+        XCTAssertNotNil(nd)
+        guard let node = nd else { return }
         XCTAssertEqual(node.name, "empty")
     }
 
     func testElementXML() throws {
         let xmlData = Data(helloXML.utf8)
-        let document = SwiftLibXML.XMLDocument(data: xmlData)
-        XCTAssertNotNil(document)
-        guard let document = document else { return }
+        let doc = SwiftLibXML.XMLDocument(data: xmlData)
+        XCTAssertNotNil(doc)
+        guard let document = doc else { return }
         var previousElement: SwiftLibXML.XMLElement?
         let n = try document.reduce(0) {
             if $1.node == previousElement?.node { throw "\($1.name) @ \($1.node) === \(previousElement!.name) @ \(previousElement!.node) "}
@@ -88,21 +88,21 @@ final class SwiftLibXMLTests: XCTestCase {
             return $0 + 1
         }
         XCTAssertEqual(n, 2)
-        let node = document.makeIterator().next()
-        XCTAssertNotNil(node)
-        guard let node = node else { return }
+        let nd = document.makeIterator().next()
+        XCTAssertNotNil(nd)
+        guard let node = nd else { return }
         XCTAssertEqual(node.name, "hello")
-        let contentNode = document.makeIterator().next()
-        XCTAssertNotNil(contentNode)
-        guard let contentNode = contentNode else { return }
+        let cn = document.makeIterator().next()
+        XCTAssertNotNil(cn)
+        guard let contentNode = cn else { return }
         XCTAssertEqual(contentNode.content, "world")
     }
 
     func testHTML() throws {
         let xmlData = Data(someHTML.utf8)
-        let document = SwiftLibXML.XMLDocument(data: xmlData, parser: htmlMemoryParser)
-        XCTAssertNotNil(document)
-        guard let document = document else { return }
+        let doc = SwiftLibXML.XMLDocument(data: xmlData, parser: htmlMemoryParser)
+        XCTAssertNotNil(doc)
+        guard let document = doc else { return }
         var previousElement: SwiftLibXML.XMLElement?
         let n = try document.reduce(0) {
             if $1.node == previousElement?.node { throw "\($1.name) @ \($1.node) === \(previousElement!.name) @ \(previousElement!.node) "}
@@ -129,12 +129,12 @@ final class SwiftLibXMLTests: XCTestCase {
 
     func testXPathHTML() throws {
         let xmlData = Data(someHTML.utf8)
-        let document = SwiftLibXML.XMLDocument(data: xmlData, parser: htmlMemoryParser)
-        XCTAssertNotNil(document)
-        guard let document = document else { return }
-        let xpath = document.xpath("//title")
-        XCTAssertNotNil(xpath)
-        guard let xpath = xpath else { return }
+        let doc = SwiftLibXML.XMLDocument(data: xmlData, parser: htmlMemoryParser)
+        XCTAssertNotNil(doc)
+        guard let document = doc else { return }
+        let xp = document.xpath("//title")
+        XCTAssertNotNil(xp)
+        guard let xpath = xp else { return }
         XCTAssertEqual(xpath.count, 1)
         XCTAssertEqual(xpath[0].name, "title")
         XCTAssertEqual(xpath[0].content, "Title")
