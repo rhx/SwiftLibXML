@@ -16,7 +16,7 @@ on:
 
 jobs:
   # Ubuntu 18.04 tasks
-  build-ubuntu-18.04-swift-latest:
+  build-ubuntu-18_04-swift-latest:
     runs-on: ubuntu-18.04
     steps:
       - name: Print Swift version to confirm

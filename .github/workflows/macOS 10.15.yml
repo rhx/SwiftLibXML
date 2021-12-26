@@ -16,7 +16,7 @@ on:
 
 jobs:
   # macOS tasks
-  build-mac-swift-latest:
+  build-mac-catalina-swift-latest:
     runs-on: macos-10.15
     steps:
       - name: Checkout
