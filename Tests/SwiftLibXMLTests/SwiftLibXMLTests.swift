@@ -127,6 +127,20 @@ final class SwiftLibXMLTests: XCTestCase {
         }
     }
 
+    func testXPathHTML() throws {
+        let xmlData = Data(someHTML.utf8)
+        let document = SwiftLibXML.XMLDocument(data: xmlData, parser: htmlMemoryParser)
+        XCTAssertNotNil(document)
+        guard let document = document else { return }
+        let xpath = document.xpath("//title")
+        XCTAssertNotNil(xpath)
+        guard let xpath = xpath else { return }
+        XCTAssertEqual(xpath.count, 1)
+        XCTAssertEqual(xpath[0].name, "title")
+        XCTAssertEqual(xpath[0].content, "Title")
+        XCTAssertEqual(document.xpath("//body")?.first?.content.trimmingCharacters(in: .whitespacesAndNewlines), "Page Content")
+    }
+
 //    func testPerformanceExample() {
 //        // This is an example of a performance test case.
 //        self.measure {
