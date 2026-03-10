@@ -1,10 +1,9 @@
 # SwiftLibXML
 A simple object-oriented Swift API around libxml2
 
-![macOS 11 build](https://github.com/rhx/SwiftLibXML/workflows/macOS%2011/badge.svg)
-![macOS 10.15 build](https://github.com/rhx/SwiftLibXML/workflows/macOS%2010.15/badge.svg)
-![Ubuntu 20.04 build](https://github.com/rhx/SwiftLibXML/workflows/Ubuntu%2020.04/badge.svg)
-![Ubuntu 18.04 build](https://github.com/rhx/SwiftLibXML/workflows/Ubuntu%2018.04/badge.svg)
+![macOS](https://github.com/rhx/SwiftLibXML/actions/workflows/macOS.yml/badge.svg?branch=development)
+![Linux](https://github.com/rhx/SwiftLibXML/actions/workflows/Linux.yml/badge.svg?branch=development)
+![Windows CI](https://github.com/rhx/SwiftLibXML/actions/workflows/windows-ci.yml/badge.svg?branch=development)
 
 ## Prerequisites
 
@@ -13,21 +12,20 @@ A simple object-oriented Swift API around libxml2
 To build, you need at least Swift 5.2 (Swift 5.5+ should work fine), download from https://swift.org/download/ -- if you are using macOS, make sure you have the command line tools installed as well).  Test that your compiler works using `swift --version`, which should give you something like
 
 	$ swift --version
-	swift-driver version: 1.26.21
-	Apple Swift version 5.5.2 (swiftlang-1300.0.47.2 clang-1300.0.29.30)
-	Target: x86_64-apple-macosx12.0
+	swift-driver version: 1.127.15 Apple Swift version 6.2.4 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)
+	Target: arm64-apple-macosx26.0
 
 on macOS, or on Linux you should get something like:
 
 	$ swift --version
-	Swift version 5.5.2 (swift-5.5.2-RELEASE)
+	Swift version 6.1 (swift-6.1-RELEASE)
 	Target: x86_64-unknown-linux-gnu
 
 ### libxml2
 
 #### Linux
 
-On Ubuntu 16.04, 18.04, or 20.04, you can use the libxml2 that comes with the distribution.  Just install with the `apt` package manager:
+On Ubuntu 16.04, 18.04, 20.04, 22.04, and 24.04, you can use the libxml2 that comes with the distribution.  Just install with the `apt` package manager:
 
 	sudo apt update
 	sudo apt install libxml2-dev
