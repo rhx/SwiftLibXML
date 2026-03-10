@@ -1,0 +1,51 @@
+name: Linux
+
+env:
+  UBUNTU_APT: ${{ 'libxml2-dev pkg-config' }}
+
+on:
+  push:
+    branches: [development, main]
+  pull_request:
+    branches: [development, main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-linux:
+    name: ${{ matrix.os }} (Swift ${{ matrix.swift }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            swift: "6.2"
+          - os: ubuntu-22.04
+            swift: "6.1"
+    steps:
+      - name: Setup Swift
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: ${{ matrix.swift }}
+
+      - name: Print Linux and Swift version
+        run: |
+          lsb_release -d
+          swift --version
+
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y $UBUNTU_APT
+
+      - name: Checkout SwiftLibXML
+        uses: actions/checkout@v4
+
+      - name: Build SwiftLibXML
+        run: swift build --build-tests
+
+      - name: Test SwiftLibXML
+        run: swift test

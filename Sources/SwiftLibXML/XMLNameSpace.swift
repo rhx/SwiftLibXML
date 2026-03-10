@@ -5,8 +5,7 @@
 //  Created by Rene Hexel on 25/03/2016.
 //  Copyright © 2016, 2018, 2020, 2021 Rene Hexel. All rights reserved.
 //
-#if os(Linux)
-    import Glibc
+#if !canImport(Darwin)
     import CLibXML2
 #else
     import Darwin

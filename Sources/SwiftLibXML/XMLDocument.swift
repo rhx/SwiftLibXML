@@ -6,7 +6,7 @@
 //  Copyright © 2016, 2018, 2020, 2021 Rene Hexel. All rights reserved.
 //
 import Foundation
-#if os(Linux)
+#if !canImport(Darwin)
     import CLibXML2
 #else
     import libxml2
