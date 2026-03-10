@@ -49,6 +49,8 @@ jobs:
           "C:\msys64\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           "PKG_CONFIG_PATH=C:\msys64\mingw64\lib\pkgconfig;C:\msys64\mingw64\share\pkgconfig" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           "PKG_CONFIG_LIBDIR=C:\msys64\mingw64\lib\pkgconfig;C:\msys64\mingw64\share\pkgconfig" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          # SPM looks for 'pkg-config'; MSYS2 only ships 'pkgconf.exe'
+          Copy-Item C:\msys64\mingw64\bin\pkgconf.exe C:\msys64\mingw64\bin\pkg-config.exe
 
       - name: Swift version
         run: swift --version
