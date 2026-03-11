@@ -43,6 +43,16 @@ jobs:
             --output .build/documentation \
             --verbose
 
+      - name: Add root redirect
+        run: |
+          cat > .build/documentation/index.html <<'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head><meta http-equiv="refresh" content="0; url=documentation/swiftlibxml/"></head>
+          <body><a href="documentation/swiftlibxml/">SwiftLibXML Documentation</a></body>
+          </html>
+          EOF
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
