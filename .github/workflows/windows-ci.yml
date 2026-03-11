@@ -46,20 +46,18 @@ jobs:
       # pkgconf (e.g. /mingw64/include/libxml2).  Package.swift therefore uses
       # a regular C target on Windows driven by these environment variables
       # instead of a systemLibrary with pkgConfig.
-      - name: Set libxml2 environment variables
-        shell: pwsh
+      # Use the msys2 shell so cygpath resolves the correct Windows paths
+      # regardless of where msys2/setup-msys2 installed MSYS2.
+      - name: Set libxml2 environment variables and create xml2.lib
+        shell: msys2 {0}
         run: |
-          "LIBXML_INCLUDE_PATH=C:\msys64\mingw64\include" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          "LIBXML_LIBRARY_PATH=C:\msys64\mingw64\lib" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          "C:\msys64\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-
-      # Swift's lld-link requires an MSVC-compatible import library (xml2.lib).
-      # MSYS2 ships libxml2.dll.a (a GNU archive of COFF import objects); lld
-      # can read this format directly, so renaming it is sufficient.
-      - name: Create xml2.lib import library
-        shell: pwsh
-        run: |
-          Copy-Item "C:\msys64\mingw64\lib\libxml2.dll.a" "C:\msys64\mingw64\lib\xml2.lib"
+          echo "LIBXML_INCLUDE_PATH=$(cygpath -w /mingw64/include)" >> "$GITHUB_ENV"
+          echo "LIBXML_LIBRARY_PATH=$(cygpath -w /mingw64/lib)"    >> "$GITHUB_ENV"
+          cygpath -w /mingw64/bin >> "$GITHUB_PATH"
+          # Swift's lld-link requires an MSVC-compatible import library (xml2.lib).
+          # MSYS2 ships libxml2.dll.a (a GNU archive of COFF import objects); lld
+          # can read this format directly, so copying it suffices.
+          cp /mingw64/lib/libxml2.dll.a /mingw64/lib/xml2.lib
 
       - name: Swift version
         run: swift --version
