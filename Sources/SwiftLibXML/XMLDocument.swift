@@ -30,27 +30,39 @@ public let htmlMemoryParser: (UnsafePointer<CChar>?, Int32, UnsafePointer<CChar>
     htmlReadMemory($0, $1, $2, $3, numericCast($4))
 }
 
-///
-/// A wrapper around libxml2 xmlDoc
-///
+/// A Swift wrapper around a libxml2 document.
 public class XMLDocument {
+    /// Parser option flags understood by libxml2.
     public typealias ParserOptions = xmlParserOption
-    /// The underlying XML document
+
+    /// The underlying libxml2 document pointer.
+    ///
+    /// This remains an implementation detail so callers can work with Swift
+    /// wrappers while the package keeps ownership of document lifetime.
     @usableFromInline let xml: xmlDocPtr
 //    let ctx: xmlParserCtxtPtr? = nil
 
-    /// private constructor from a libxml document
-    /// - Parameter xmlDocument: The XML document to parse
+    /// Wraps an existing libxml2 document pointer.
+    ///
+    /// This initialiser is mainly used internally after parsing has already
+    /// succeeded.
+    ///
+    /// - Parameter xmlDocument: The document pointer to wrap.
     @inlinable public init(xmlDocument: xmlDocPtr) {
         xml = xmlDocument
         xmlInitParser()
     }
 
-    /// Initialise the XML parser from data with the given parser function
+    /// Parses a document from in-memory data.
+    ///
+    /// The default options suppress warning output, disable network access, and
+    /// ask libxml2 to recover where possible.
+    ///
     /// - Parameters:
-    ///   - data: The data to use for initialisation
-    ///   - options: The parser options to use
-    ///   - parser: The parse function to use; defaults to`xmlMemoryParser`
+    ///   - data: The XML or HTML data to parse.
+    ///   - options: The libxml2 parser options to apply.
+    ///   - parse: The parse function to call. Defaults to ``xmlMemoryParser``.
+    /// - Returns: A document wrapper, or `nil` if parsing fails.
     @inlinable public convenience init?(data: Data, options: ParserOptions = [.noWarning, .noError, .recover, .noNet], parser parse: (UnsafePointer<CChar>?, Int32, UnsafePointer<CChar>?, UnsafePointer<CChar>?, Int32) -> xmlDocPtr? = xmlMemoryParser) {
         guard let xml = data.withUnsafeBytes({ (buffer: UnsafeRawBufferPointer) -> xmlDocPtr? in
             guard let base = buffer.baseAddress?.assumingMemoryBound(to: CChar.self) else { return nil }
@@ -59,44 +71,51 @@ public class XMLDocument {
         self.init(xmlDocument: xml)
     }
 
-    /// Failable initialiser from memory with a given parser function
+    /// Parses a document from an in-memory character buffer.
+    ///
     /// - Parameters:
-    ///   - buffer: The buffer containing the XML to parse
-    ///   - options: The parser options to use
-    ///   - parser: The parse function to use; defaults to`xmlMemoryParser`
+    ///   - buffer: The character buffer containing the XML or HTML source.
+    ///   - options: The libxml2 parser options to apply.
+    ///   - parse: The parse function to call. Defaults to ``xmlMemoryParser``.
+    /// - Returns: A document wrapper, or `nil` if parsing fails.
     @inlinable public convenience init?(buffer: UnsafeBufferPointer<CChar>, options: ParserOptions = [.noWarning, .noError, .recover, .noNet], parser parse: (UnsafePointer<CChar>?, Int32, UnsafePointer<CChar>?, UnsafePointer<CChar>?, Int32) -> xmlDocPtr? = xmlMemoryParser) {
         guard let base = buffer.baseAddress,
               let xml = parse(base, Int32(buffer.count), "", nil, Int32(truncatingIfNeeded: options.rawValue)) else { return nil }
         self.init(xmlDocument: xml)
     }
 
-    /// Initialise from an XML file
-    /// - Parameters:
-    ///   - fileName: The XML file to read
+    /// Parses a document from a file on disk.
+    ///
+    /// - Parameter fileName: The null-terminated file path to read.
+    /// - Returns: A document wrapper, or `nil` if parsing fails.
     @inlinable public convenience init?(fromFile fileName: UnsafePointer<CChar>) {
         guard let xml = xmlParseFile(fileName) else { return nil }
         self.init(xmlDocument: xml)
     }
 
-    /// clean up
+    /// Releases the underlying libxml2 document.
     deinit {
         xmlFreeDoc(xml)
 //        if let ctx = ctx { xmlFreeParserCtxt(ctx) }
     }
 
-    /// Return the tree's the root element
+    /// The root element of the parsed document tree.
     public var rootElement: XMLElement {
         return XMLElement(node: xmlDocGetRootElement(xml))
     }
 
-    /// Return the XML tree for enumeration
+    /// A tree view that yields each node together with its level and parent.
     public var tree: XMLTree {
         return XMLTree(xml: self)
     }
 
-    /// Get an attribute value
-    /// - Parameter attribute: The attriibute to get the value for
-    /// - Returns: A String containing the attribute value, or `nil` if nonexistent
+    /// Resolves the string value stored in a libxml2 attribute node.
+    ///
+    /// Use this when you already have an ``XMLAttribute`` value and want the
+    /// attribute content as a Swift string.
+    ///
+    /// - Parameter attribute: The attribute whose value should be read.
+    /// - Returns: The attribute value, or `nil` when the attribute has no string content.
     public func valueFor(attribute: XMLAttribute) -> String? {
         let attr = attribute.attr
         guard let children = attr.pointee.children,
@@ -106,7 +125,15 @@ public class XMLDocument {
         return value
     }
 
-    /// get the value for a named attribute
+    /// Resolves the value of a named attribute on an element.
+    ///
+    /// This performs a linear scan across the element's attributes and returns
+    /// the first matching name.
+    ///
+    /// - Parameters:
+    ///   - name: The attribute name to look up.
+    ///   - e: The element whose attributes should be searched.
+    /// - Returns: The attribute value, or `nil` when no matching attribute exists.
     public func valueFor(attribute name: String, inElement e: XMLElement) -> String? {
         let attr = e.attributes.filter({$0.name == name}).first
         return attr.flatMap { valueFor(attribute: $0) }
@@ -170,37 +197,56 @@ extension XMLDocument.ParserOptions: OptionSet {
 //
 extension XMLDocument: Sequence {
     public typealias Iterator = XMLElement.Iterator
+
+    /// Returns a depth-first iterator rooted at ``rootElement``.
     @inlinable public func makeIterator() -> Iterator {
         return Iterator(root: rootElement)
     }
 }
 
 
-///
-/// Tree enumeration
-///
+/// Enumerates a document tree while preserving node depth and parentage.
 public struct XMLTree: Sequence {
+    /// A single tree entry containing the nesting level, node, and parent.
     public typealias Node = (level: Int, node: XMLElement, parent: XMLElement?)
+
+    /// The document whose tree is being traversed.
     let document: XMLDocument
 
+    /// Creates a tree view rooted at the supplied document.
+    ///
+    /// - Parameter xml: The document to traverse.
     public init(xml: XMLDocument) {
         document = xml
     }
 
+    /// Iterates over the document in depth-first pre-order.
     public class Iterator: IteratorProtocol {
+        /// The current depth within the traversal.
         let level: Int
+
+        /// The parent element for nodes returned by this iterator.
         let parent: XMLElement?
+
+        /// The element that will be returned next.
         var element: XMLElement?
+
+        /// The child iterator currently being drained, if any.
         var child: Iterator?
 
-        /// create a generator from a root element
+        /// Creates an iterator rooted at a specific element.
+        ///
+        /// - Parameters:
+        ///   - root: The first element to return.
+        ///   - parent: The parent of `root`, if any.
+        ///   - level: The nesting level for `root`.
         init(root: XMLElement, parent: XMLElement? = nil, level: Int = 0) {
             self.level = level
             self.parent = parent
             element = root
         }
 
-        /// return the next element following a depth-first pre-order traversal
+        /// Returns the next element together with its level and parent.
         public func next() -> Node? {
             if let c = child {
                 if let element = c.next() { return element }         // children
@@ -213,6 +259,7 @@ public struct XMLTree: Sequence {
         }
     }
 
+    /// Returns a depth-first iterator rooted at the document's root element.
     public func makeIterator() -> Iterator {
         return Iterator(root: document.rootElement)
     }

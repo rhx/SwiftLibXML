@@ -1,15 +1,66 @@
 # SwiftLibXML
-A simple object-oriented Swift API around libxml2
+A small object-oriented Swift API around libxml2.
 
 ![macOS](https://github.com/rhx/SwiftLibXML/actions/workflows/macOS.yml/badge.svg?branch=development)
 ![Linux](https://github.com/rhx/SwiftLibXML/actions/workflows/Linux.yml/badge.svg?branch=development)
 ![Windows CI](https://github.com/rhx/SwiftLibXML/actions/workflows/windows-ci.yml/badge.svg?branch=development)
 
+SwiftLibXML wraps libxml2 pointers in Swift value and reference types that make
+common parsing, traversal, attribute lookup, namespace handling, and XPath
+queries straightforward on macOS, Linux, and Windows.
+
+## Quick Start
+
+Add SwiftLibXML to your package:
+
+```swift
+.package(url: "https://github.com/rhx/SwiftLibXML.git", from: "3.0.0")
+```
+
+Then import the module, parse a document, and run an XPath query:
+
+```swift
+import Foundation
+import SwiftLibXML
+
+let xml = """
+<?xml version="1.0"?>
+<greeting language="en">Hello</greeting>
+"""
+
+if let document = XMLDocument(data: Data(xml.utf8)) {
+    let root = document.rootElement
+    print(root.name)                         // greeting
+    print(root.content)                      // Hello
+    print(root.attribute(named: "language")) // Optional("en")
+    if let matches = document.xpath("//greeting") {
+        for element in matches {
+            print(element.qualifiedName)
+        }
+    }
+}
+```
+
+## Features
+
+- Parse XML or HTML from memory or from a file.
+- Traverse parents, siblings, children, descendants, attributes, and namespaces.
+- Query documents with XPath.
+- Keep libxml2 interop explicit without forcing callers to manage raw pointers.
+
+## Requirements
+
+- Swift 5.2 or newer.
+- libxml2 development headers and libraries.
+
 ## Prerequisites
 
 ### Swift
 
-To build, you need at least Swift 5.2 (Swift 5.5+ should work fine), download from https://swift.org/download/ -- if you are using macOS, make sure you have the command line tools installed as well).  Test that your compiler works using `swift --version`, which should give you something like
+To build, you need at least Swift 5.2. Download Swift from
+https://swift.org/download/ and, on macOS, make sure the command line tools are
+installed as well. Test that your compiler works using `swift --version`, which
+should give you something like
 
 	$ swift --version
 	swift-driver version: 1.127.15 Apple Swift version 6.2.4 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)
@@ -32,7 +83,8 @@ On Ubuntu 16.04, 18.04, 20.04, 22.04, and 24.04, you can use the libxml2 that co
 
 #### macOS
 
-On macOS, you can install gtk using HomeBrew (for setup instructions, see http://brew.sh).  Once you have a running HomeBrew installation, you can use it to install a native version of gtk:
+On macOS, you can install libxml2 using Homebrew (for setup instructions, see
+http://brew.sh):
 
 	brew update
 	brew install libxml2
@@ -80,3 +132,29 @@ you must reference it as a *local* (path-based) dependency in your
 
 This restriction applies to Windows only; macOS and Linux consumers can use
 the normal remote-package dependency.
+
+## Building
+
+Build the package with:
+
+```bash
+swift build
+```
+
+Run the test suite with:
+
+```bash
+swift test
+```
+
+## Generating Documentation
+
+With Swift 6.2 or newer, the package includes the `swift-docc-static` command
+plugin dependency. Generate static documentation with:
+
+```bash
+swift package generate-static-documentation --output /tmp/swiftlibxml-docs
+```
+
+The generated site can then be opened directly from the filesystem, for example
+at `/tmp/swiftlibxml-docs/documentation/swiftlibxml/index.html`.

@@ -4,6 +4,14 @@ import PackageDescription
 
 let pkgName = "SwiftLibXML"
 
+#if compiler(>=6.2)
+let packageDependencies: [Package.Dependency] = [
+    .package(url: "https://github.com/mipalgu/swift-docc-static.git", branch: "main")
+]
+#else
+let packageDependencies = [Package.Dependency]()
+#endif
+
 // On Windows, SPM's pkg-config support does not interoperate with MSYS2's
 // pkgconf: the flag allowlist rejects POSIX-style paths such as
 // /mingw64/include/libxml2.  The standard workaround (following
@@ -69,6 +77,7 @@ let swiftLibXMLSwiftSettings = [SwiftSetting]()
 let package = Package(
     name: pkgName,
     products: [.library(name: pkgName, targets: [pkgName])],
+    dependencies: packageDependencies,
     targets: cTargets + [
         .target(name: pkgName, dependencies: deps,
                 swiftSettings: swiftLibXMLSwiftSettings),

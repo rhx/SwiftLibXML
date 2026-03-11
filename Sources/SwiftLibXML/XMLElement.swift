@@ -12,28 +12,30 @@
     import libxml2
 #endif
 
-///
-/// A wrapper around libxml2 xmlElement
-///
+/// A Swift wrapper around a libxml2 element node.
 public struct XMLElement {
-    /// The underlying node
+    /// The underlying libxml2 node pointer.
+    ///
+    /// This stored pointer remains internal so the public API can stay focused
+    /// on traversal and value access.
     @usableFromInline let node: xmlNodePtr
 
-    /// Default initialiser
-    /// - Parameter node: The underlying XML node to wrap
+    /// Creates a wrapper around an existing libxml2 node pointer.
+    ///
+    /// - Parameter node: The element node to wrap.
     @usableFromInline init(node: xmlNodePtr) {
         self.node = node
     }
 }
 
 extension XMLElement {
-    /// name of the XML element
+    /// The local name of the element.
     @inlinable public var name: String {
         let name: UnsafePointer<xmlChar>? = node.pointee.name
         return name.map { String(cString: UnsafePointer($0)) } ?? ""
     }
 
-    /// content of the XML element
+    /// The concatenated textual content of the element subtree.
     @inlinable public var content: String {
         let content: UnsafeMutablePointer<xmlChar>? = xmlNodeGetContent(node)
         let txt = content.map { String(cString: UnsafePointer<xmlChar>($0)) } ?? ""
@@ -41,58 +43,64 @@ extension XMLElement {
         return txt
     }
 
-    /// attributes of the XML element
+    /// The attributes declared directly on the element.
     @inlinable public var attributes: AnySequence<XMLAttribute> {
         guard node.pointee.properties != nil else { return emptySequence() }
         return AnySequence { XMLAttribute(attr: self.node.pointee.properties).makeIterator() }
     }
 
-    /// parent of the XML element
+    /// The immediate parent element.
     @inlinable public var parent: XMLElement {
         return XMLElement(node: node.pointee.parent)
     }
 
-    /// siblings of the XML element
+    /// The following siblings of the element on the same level.
     @inlinable public var siblings: AnySequence<XMLElement> {
         guard node.pointee.next != nil else { return emptySequence() }
         return AnySequence { XMLElement(node: self.node.pointee.next).levelIterator() }
     }
 
-    /// children of the XML element
+    /// The immediate child elements of the element.
     @inlinable public var children: AnySequence<XMLElement> {
         guard node.pointee.children != nil else { return emptySequence() }
         return AnySequence { XMLElement(node: self.node.pointee.children).levelIterator() }
     }
 
-    /// recursive pre-order descendants of the XML element
+    /// The descendant elements in depth-first pre-order.
     @inlinable public var descendants: AnySequence<XMLElement> {
         guard node.pointee.children != nil else { return emptySequence() }
         return AnySequence { XMLElement(node: self.node.pointee.children).makeIterator() }
     }
 
-    /// return the value of a given attribute
+    /// Returns the string value of a named attribute.
+    ///
     /// - Parameters:
-    ///   - name: The name of the attribute to examine
-    /// - Returns: The content of the attribute or `nil` if not found
+    ///   - n: The local attribute name to look up.
+    /// - Returns: The attribute value, or `nil` if no matching attribute exists.
     @inlinable public func attribute(named n: String) -> String? {
         let value: UnsafeMutablePointer<xmlChar>? = xmlGetProp(node, n)
         return value.map { String(cString: UnsafePointer<xmlChar>($0)) }
     }
 
-    /// return the value of a given attribute in a given name space
+    /// Returns the string value of a namespace-qualified attribute.
+    ///
     /// - Parameters:
-    ///   - name: The name of the attribute to examine
-    ///   - namespace: The namespace for the attribute
-    /// - Returns: The content of the attribute or `nil` if not found
+    ///   - name: The local attribute name to look up.
+    ///   - namespace: The namespace URI used to qualify the attribute.
+    /// - Returns: The attribute value, or `nil` if no matching attribute exists.
     @inlinable public func attribute(named name: String, namespace: String) -> String? {
         let value: UnsafeMutablePointer<xmlChar>? = xmlGetNsProp(node, name, namespace)
         return value.map { String(cString: UnsafePointer<xmlChar>($0)) }
     }
 
-    /// return the boolean value of a given attribute
+    /// Returns a Boolean interpretation of a named attribute.
+    ///
+    /// The attribute is treated as `true` only when it exists and can be parsed
+    /// as a non-zero integer.
+    ///
     /// - Parameters:
-    ///   - name: The name of the attribute to examine
-    /// - Returns: `true` if the attribute exists and has a non-zero value
+    ///   - n: The local attribute name to look up.
+    /// - Returns: `true` when the attribute exists and contains a non-zero integer.
     @inlinable public func bool(named n: String) -> Bool {
         if let str = attribute(named: n),
            let val = Int(str), val != 0 {
@@ -102,11 +110,12 @@ extension XMLElement {
         }
     }
 
-    /// return the boolean value of a given attribute in a given name space
+    /// Returns a Boolean interpretation of a namespace-qualified attribute.
+    ///
     /// - Parameters:
-    ///   - name: The name of the attribute to examine
-    ///   - namespace: The namespace for the attribute
-    /// - Returns: `true` if the attribute exists and has a non-zero value
+    ///   - n: The local attribute name to look up.
+    ///   - namespace: The namespace URI used to qualify the attribute.
+    /// - Returns: `true` when the attribute exists and contains a non-zero integer.
     @inlinable public func bool(named n: String, namespace: String) -> Bool {
         if let str = attribute(named: n, namespace:  namespace),
            let val = Int(str), val != 0 {
@@ -121,25 +130,24 @@ extension XMLElement {
 // MARK: - Comparison
 //
 extension XMLElement: Equatable {
-    /// Compare the node pointers of two XML elements
-    /// and return `true` if both reference the same node
+    /// Returns `true` when two wrappers point to the same libxml2 node.
+    ///
     /// - Parameters:
-    ///   - lhs: The left hand side element
-    ///   - rhs: The right hand side element
-    /// - Returns: `true`if both XML elements reference the same node
+    ///   - lhs: The left-hand element.
+    ///   - rhs: The right-hand element.
+    /// - Returns: `true` when both wrappers reference the same node pointer.
     @inlinable public static func===(_ lhs: XMLElement, _ rhs: XMLElement) -> Bool { lhs.node == rhs.node }
 
-    /// Compare the names of two XML elements
-    /// and return `true` if both reference the same node
-    /// or have the same name and are located within the
-    /// same namespace.
+    /// Compares two elements by identity, then by namespace definition and name.
     ///
-    /// This function simply compares the namespaces and the names.
-    /// It does not perform a full subtree walk on children and attributs.
+    /// This comparison does not walk the subtree or inspect attribute values.
+    /// It is a lightweight equivalence check based on the libxml2 node pointer
+    /// or matching namespace definition and local name.
+    ///
     /// - Parameters:
-    ///   - lhs: The left hand side element
-    ///   - rhs: The right hand side element
-    /// - Returns: `true`if both XML elements reference the same node
+    ///   - lhs: The left-hand element.
+    ///   - rhs: The right-hand element.
+    /// - Returns: `true` when the elements represent the same node or equivalent name/namespace pairs.
     @inlinable public static func==(_ lhs: XMLElement, _ rhs: XMLElement) -> Bool {
         lhs.node == rhs.node ||
         (lhs.node.pointee.nsDef == rhs.node.pointee.nsDef &&
@@ -148,24 +156,24 @@ extension XMLElement: Equatable {
 }
 
 extension XMLElement: Comparable {
-    /// Return the fully qualified namespaces in order
+    /// The concatenated namespace prefixes declared for the element.
     @inlinable public var namespace: String {
         namespaces.reduce("") { $0 + ($1.prefix ?? "") }
     }
-    /// Return the fully qualified name
+
+    /// The namespace-qualified element name.
     @inlinable public var qualifiedName: String {
         namespace + name
     }
-    /// Compare the alphabetical order of the names of two XML elements
-    /// and return `true` if both reference different nodes,
-    /// and in a String comparison `lhs.name < rhs.name`
+
+    /// Orders elements lexicographically by qualified name when they are distinct nodes.
     ///
-    /// This function simply compares the namespaces and the names.
-    /// It does not perform a full subtree walk on children and attributs.
+    /// This comparison does not walk the subtree or inspect attribute values.
+    ///
     /// - Parameters:
-    ///   - lhs: The left hand side element
-    ///   - rhs: The right hand side element
-    /// - Returns: `true`if both XML elements reference the same node
+    ///   - lhs: The left-hand element.
+    ///   - rhs: The right-hand element.
+    /// - Returns: `true` when `lhs` and `rhs` are different nodes and `lhs` sorts before `rhs`.
     @inlinable public static func < (lhs: XMLElement, rhs: XMLElement) -> Bool {
         lhs.node != rhs.node &&
         lhs.qualifiedName < rhs.qualifiedName
@@ -176,12 +184,12 @@ extension XMLElement: Comparable {
 // MARK: - Conversion to String
 //
 extension XMLElement: CustomStringConvertible {
-    /// A description of the XML element
+    /// The qualified element name.
     @inlinable public var description: String { return qualifiedName }
 }
 
 extension XMLElement: CustomDebugStringConvertible {
-    /// The debug description of the element
+    /// A debug string containing the qualified name and libxml2 node type.
     @inlinable public var debugDescription: String {
         return "\(qualifiedName): \(node.pointee.type)"
     }
@@ -191,12 +199,12 @@ extension XMLElement: CustomDebugStringConvertible {
 // MARK: - Enumerating XML Elements
 //
 extension XMLElement: Sequence {
-    /// return a recursive, depth-first, pre-order traversal generator
+    /// Returns a depth-first pre-order iterator rooted at the element.
     public func makeIterator() -> XMLElement.Iterator {
         return Iterator(root: self)
     }
 
-    /// return a one-level (breadth-only) generator
+    /// Returns an iterator across the current level only.
     public func levelIterator() -> XMLElement.LevelIterator {
         return LevelIterator(root: self)
     }
@@ -204,17 +212,22 @@ extension XMLElement: Sequence {
 
 
 public extension XMLElement {
-    /// Iterator for depth-first, pre-order enumeration
+    /// Iterates over an element subtree in depth-first pre-order.
     class Iterator: IteratorProtocol {
+        /// The element queued to be returned next.
         @usableFromInline var element: XMLElement?
+
+        /// The child iterator currently being drained, if any.
         @usableFromInline var child: Iterator?
 
-        /// create a generator from a root element
+        /// Creates an iterator rooted at the supplied element.
+        ///
+        /// - Parameter root: The first element to return.
         @usableFromInline init(root: XMLElement) {
             element = root
         }
 
-        /// return the next element following a depth-first pre-order traversal
+        /// Returns the next element in depth-first pre-order.
         @inlinable public func next() -> XMLElement? {
             if let c = child {
                 if let element = c.next() { return element }         // children
@@ -232,16 +245,19 @@ public extension XMLElement {
         }
     }
 
-    /// Flat generator for horizontally traversing one level of the tree
+    /// Iterates across a single sibling chain without descending into children.
     class LevelIterator: IteratorProtocol {
+        /// The element queued to be returned next.
         var element: XMLElement?
 
-        /// create a sibling generator from a root element
+        /// Creates an iterator rooted at the supplied element.
+        ///
+        /// - Parameter root: The first sibling to return.
         init(root: XMLElement) {
             element = root
         }
 
-        /// return the next element following the list of siblings
+        /// Returns the next sibling on the same level.
         public func next() -> XMLElement? {
             let e = element
             let sibling = e?.node.pointee.next
@@ -256,7 +272,7 @@ public extension XMLElement {
 // MARK: - Namespaces
 //
 extension XMLElement {
-    /// name spaces of the XML element
+    /// The namespace declarations attached directly to the element.
     public var namespaces: AnySequence<XMLNameSpace> {
         guard node.pointee.nsDef != nil else { return emptySequence() }
         return AnySequence { XMLNameSpace(ns: self.node.pointee.nsDef).makeIterator() }

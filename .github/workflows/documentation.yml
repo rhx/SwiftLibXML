@@ -1,0 +1,64 @@
+name: Documentation
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build Documentation
+    runs-on: macos-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.1.1"
+
+      - name: Swift version
+        run: swift --version
+
+      - name: Install macOS dependencies
+        run: brew install libxml2 pkgconf
+
+      - name: Install docc-static
+        run: brew install mipalgu/tap/swift-docc-static
+
+      - name: Generate documentation
+        run: |
+          docc-static generate \
+            --package-path . \
+            --output .build/documentation \
+            --verbose
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .build/documentation
+
+  deploy:
+    name: Deploy to GitHub Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

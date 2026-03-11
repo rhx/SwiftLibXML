@@ -12,28 +12,32 @@
     import libxml2
 #endif
 
-///
-/// XML Name space representation
-///
+/// A Swift wrapper around a libxml2 namespace definition.
 public struct XMLNameSpace {
-    /// The underlying XML namespace pointer
+    /// The underlying libxml2 namespace pointer.
+    ///
+    /// This remains an implementation detail so the public API can expose
+    /// strings and sequences instead of raw C pointers.
     @usableFromInline let ns: xmlNsPtr
 
-    /// Default initialiser
-    /// - Parameter ns: The underlying XML namespace to wrap
+    /// Creates a wrapper around an existing libxml2 namespace pointer.
+    ///
+    /// - Parameter ns: The namespace pointer to wrap.
     @usableFromInline init(ns: xmlNsPtr) {
         self.ns = ns
     }
 }
 
 extension XMLNameSpace {
-    /// prefix of the XML namespace
+    /// The declared prefix for the namespace.
+    ///
+    /// This is `nil` for a default namespace declaration.
     @inlinable public var prefix: String? {
         let prefix: UnsafePointer<xmlChar>? = ns.pointee.prefix
         return prefix.map { String(cString: UnsafePointer($0)) }
     }
 
-    /// href URI of the XML namespace
+    /// The namespace URI referenced by the declaration.
     @inlinable public var href: String? {
         let href: UnsafePointer<xmlChar>? = ns.pointee.href
         return href.map { String(cString: UnsafePointer($0)) }
@@ -45,6 +49,7 @@ extension XMLNameSpace {
 // MARK: - Enumerating XML namespaces
 //
 extension XMLNameSpace: Sequence {
+    /// Returns an iterator over this namespace declaration and its siblings.
     @inlinable public func makeIterator() -> XMLNameSpace.Iterator {
         return Iterator(root: self)
     }
@@ -52,16 +57,22 @@ extension XMLNameSpace: Sequence {
 
 
 extension XMLNameSpace {
+    /// Iterates across namespace declarations linked from the same element.
     public class Iterator: IteratorProtocol {
-        /// Pointer to the current namespace
+        /// The namespace currently queued to be returned.
         @usableFromInline var current: XMLNameSpace?
 
-        /// create a generator from a root element
+        /// Creates an iterator rooted at the supplied namespace.
+        ///
+        /// - Parameter root: The first namespace to return.
         @usableFromInline init(root: XMLNameSpace) {
             current = root
         }
 
-        /// return the next element following a depth-first pre-order traversal
+        /// Returns the next namespace in the sibling chain.
+        ///
+        /// The iterator advances through libxml2's `next` links without
+        /// recursing because namespace declarations are stored as a flat list.
         @inlinable public func next() -> XMLNameSpace? {
             let c = current
             let sibling = c?.ns.pointee.next
