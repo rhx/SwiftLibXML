@@ -41,16 +41,25 @@ jobs:
           release: true
           install: >-
             mingw-w64-x86_64-libxml2
-            mingw-w64-x86_64-pkgconf
 
-      - name: Configure pkg-config
+      # SPM's pkg-config support rejects POSIX-style paths returned by MSYS2's
+      # pkgconf (e.g. /mingw64/include/libxml2).  Package.swift therefore uses
+      # a regular C target on Windows driven by these environment variables
+      # instead of a systemLibrary with pkgConfig.
+      - name: Set libxml2 environment variables
         shell: pwsh
         run: |
+          "LIBXML_INCLUDE_PATH=C:\msys64\mingw64\include" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "LIBXML_LIBRARY_PATH=C:\msys64\mingw64\lib" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           "C:\msys64\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          "PKG_CONFIG_PATH=C:\msys64\mingw64\lib\pkgconfig;C:\msys64\mingw64\share\pkgconfig" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          "PKG_CONFIG_LIBDIR=C:\msys64\mingw64\lib\pkgconfig;C:\msys64\mingw64\share\pkgconfig" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          # SPM looks for 'pkg-config'; MSYS2 only ships 'pkgconf.exe'
-          Copy-Item C:\msys64\mingw64\bin\pkgconf.exe C:\msys64\mingw64\bin\pkg-config.exe
+
+      # Swift's lld-link requires an MSVC-compatible import library (xml2.lib).
+      # MSYS2 ships libxml2.dll.a (a GNU archive of COFF import objects); lld
+      # can read this format directly, so renaming it is sufficient.
+      - name: Create xml2.lib import library
+        shell: pwsh
+        run: |
+          Copy-Item "C:\msys64\mingw64\lib\libxml2.dll.a" "C:\msys64\mingw64\lib\xml2.lib"
 
       - name: Swift version
         run: swift --version

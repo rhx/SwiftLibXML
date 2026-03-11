@@ -12,11 +12,23 @@ import Foundation
     import libxml2
 #endif
 
-/// In-memory XML parser
-public let xmlMemoryParser = xmlReadMemory
+/// In-memory XML parser.
+///
+/// Wraps `xmlReadMemory` with a stable `Int32` options type across all
+/// platforms.  libxml2 2.12 changed the `options` parameter from `int` to
+/// `unsigned int`; `numericCast` bridges the two safely for the positive-only
+/// flag values that XML parser options use.
+public let xmlMemoryParser: (UnsafePointer<CChar>?, Int32, UnsafePointer<CChar>?, UnsafePointer<CChar>?, Int32) -> xmlDocPtr? = {
+    xmlReadMemory($0, $1, $2, $3, numericCast($4))
+}
 
-/// In-memory HTML parser
-public let htmlMemoryParser = htmlReadMemory
+/// In-memory HTML parser.
+///
+/// Wraps `htmlReadMemory` with a stable `Int32` options type across all
+/// platforms.  See ``xmlMemoryParser`` for details.
+public let htmlMemoryParser: (UnsafePointer<CChar>?, Int32, UnsafePointer<CChar>?, UnsafePointer<CChar>?, Int32) -> htmlDocPtr? = {
+    htmlReadMemory($0, $1, $2, $3, numericCast($4))
+}
 
 ///
 /// A wrapper around libxml2 xmlDoc
@@ -42,7 +54,7 @@ public class XMLDocument {
     @inlinable public convenience init?(data: Data, options: ParserOptions = [.noWarning, .noError, .recover, .noNet], parser parse: (UnsafePointer<CChar>?, Int32, UnsafePointer<CChar>?, UnsafePointer<CChar>?, Int32) -> xmlDocPtr? = xmlMemoryParser) {
         guard let xml = data.withUnsafeBytes({ (buffer: UnsafeRawBufferPointer) -> xmlDocPtr? in
             guard let base = buffer.baseAddress?.assumingMemoryBound(to: CChar.self) else { return nil }
-            return parse(base, Int32(buffer.count), "", nil, Int32(bitPattern: options.rawValue))
+            return parse(base, Int32(buffer.count), "", nil, Int32(truncatingIfNeeded: options.rawValue))
         }) else { return nil }
         self.init(xmlDocument: xml)
     }
@@ -54,7 +66,7 @@ public class XMLDocument {
     ///   - parser: The parse function to use; defaults to`xmlMemoryParser`
     @inlinable public convenience init?(buffer: UnsafeBufferPointer<CChar>, options: ParserOptions = [.noWarning, .noError, .recover, .noNet], parser parse: (UnsafePointer<CChar>?, Int32, UnsafePointer<CChar>?, UnsafePointer<CChar>?, Int32) -> xmlDocPtr? = xmlMemoryParser) {
         guard let base = buffer.baseAddress,
-              let xml = parse(base, Int32(buffer.count), "", nil, Int32(bitPattern: options.rawValue)) else { return nil }
+              let xml = parse(base, Int32(buffer.count), "", nil, Int32(truncatingIfNeeded: options.rawValue)) else { return nil }
         self.init(xmlDocument: xml)
     }
 
