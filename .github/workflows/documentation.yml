@@ -36,23 +36,24 @@ jobs:
       - name: Install docc-static
         run: brew install mipalgu/tap/swift-docc-static
 
-      - name: Generate documentation
+      - name: Generate symbol graphs
         run: |
-          docc-static generate \
-            --package-path . \
-            --target SwiftLibXML \
+          swift build --target SwiftLibXML \
+            -Xswiftc -emit-symbol-graph \
+            -Xswiftc -emit-symbol-graph-dir \
+            -Xswiftc .build/symbol-graphs
+
+      - name: Create DocC archive
+        run: |
+          xcrun docc convert Sources/SwiftLibXML/SwiftLibXML.docc \
+            --additional-symbol-graph-dir .build/symbol-graphs \
+            --output-path .build/SwiftLibXML.doccarchive
+
+      - name: Render static documentation
+        run: |
+          docc-static render .build/SwiftLibXML.doccarchive \
             --output .build/documentation \
             --verbose
-
-      - name: Add root redirect
-        run: |
-          cat > .build/documentation/index.html <<'EOF'
-          <!DOCTYPE html>
-          <html>
-          <head><meta http-equiv="refresh" content="0; url=documentation/swiftlibxml/"></head>
-          <body><a href="documentation/swiftlibxml/">SwiftLibXML Documentation</a></body>
-          </html>
-          EOF
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
