@@ -50,14 +50,14 @@ if let document = XMLDocument(data: Data(xml.utf8)) {
 
 ## Requirements
 
-- Swift 5.2 or newer.
+- Swift 5.6 or newer.
 - libxml2 development headers and libraries.
 
 ## Prerequisites
 
 ### Swift
 
-To build, you need at least Swift 5.2. Download Swift from
+To build, you need at least Swift 5.6. Download Swift from
 https://swift.org/download/ and, on macOS, make sure the command line tools are
 installed as well. Test that your compiler works using `swift --version`, which
 should give you something like
