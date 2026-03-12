@@ -40,6 +40,7 @@ jobs:
         run: |
           docc-static generate \
             --package-path . \
+            --target SwiftLibXML \
             --output .build/documentation \
             --verbose
 
