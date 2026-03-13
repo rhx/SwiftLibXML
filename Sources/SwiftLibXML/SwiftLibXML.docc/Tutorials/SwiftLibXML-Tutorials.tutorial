@@ -1,0 +1,16 @@
+@Tutorials(name: "SwiftLibXML") {
+    @Intro(title: "SwiftLibXML Tutorials") {
+        Learn to parse XML and HTML documents, walk element trees, and query
+        with XPath using SwiftLibXML.
+    }
+
+    @Chapter(name: "Getting Started") {
+        Parse an XML document from scratch and navigate its tree structure
+        using SwiftLibXML's Swift-friendly iteration APIs.
+
+        @Image(source: "getting-started", alt: "A diagram showing XML parsed into a tree of Swift values.")
+
+        @TutorialReference(tutorial: "doc:ParseBookCatalogue")
+        @TutorialReference(tutorial: "doc:QueryWithXPath")
+    }
+}

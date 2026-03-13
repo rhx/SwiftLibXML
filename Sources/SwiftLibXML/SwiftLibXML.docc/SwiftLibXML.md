@@ -15,12 +15,22 @@ Use ``XMLDocument`` to parse data or a file, read the
 ``XMLDocument/xpath(_:namespaces:defaultPrefix:)`` and
 ``XMLDocument/xpath(_:namespaces:)``.
 
+> Tip: If your target also imports Foundation, qualify the type as
+> `SwiftLibXML.XMLDocument` to avoid the name clash with
+> `Foundation.XMLDocument`.
+
 ## Topics
+
+### Tutorials
+
+- <doc:SwiftLibXML-Tutorials>
 
 ### Essentials
 
+- <doc:GettingStarted>
 - <doc:ParsingAndTraversal>
 - <doc:XPathQueries>
+- <doc:WorkingWithNamespaces>
 - <doc:ImplementationNotes>
 
 ### Parsing Documents

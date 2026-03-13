@@ -1,0 +1,65 @@
+@Tutorial(time: 10) {
+    @Intro(title: "Parse a Book Catalogue") {
+        In this tutorial you parse an XML book catalogue, navigate its tree
+        structure, and extract element content using SwiftLibXML.
+
+        The approach shown here works unchanged on macOS, Linux, and Windows.
+    }
+
+    @Section(title: "Parse the Document") {
+        @ContentAndMedia {
+            Start by defining the XML source, wrapping it in `Data`, and
+            passing it to ``SwiftLibXML/XMLDocument``.
+
+            The initialiser is failable: it returns `nil` when libxml2 cannot
+            salvage the input even with error recovery enabled. Handling this
+            with `guard` gives you a safe entry point into the rest of the
+            code.
+        }
+
+        @Steps {
+            @Step {
+                Import Foundation and SwiftLibXML, then define the XML
+                source as a multi-line string.
+
+                @Code(name: "Catalogue.swift", file: catalogue-01.swift)
+            }
+
+            @Step {
+                Wrap the source in `Data` and parse it with
+                ``SwiftLibXML/XMLDocument``.
+
+                Because the target also imports Foundation, qualify the type
+                as `SwiftLibXML.XMLDocument` to avoid the name clash with
+                `Foundation.XMLDocument`.
+
+                @Code(name: "Catalogue.swift", file: catalogue-02.swift)
+            }
+        }
+    }
+
+    @Section(title: "Navigate the Tree") {
+        @ContentAndMedia {
+            With a parsed document in hand, read the root element and iterate
+            its children to find the book nodes.
+
+            ``XMLElement/children`` includes whitespace text nodes as well as
+            element nodes. Filter on ``XMLElement/name`` to keep only the
+            elements you want, or use XPath to select element nodes
+            exclusively.
+        }
+
+        @Steps {
+            @Step {
+                Read ``XMLDocument/rootElement`` and iterate its children,
+                skipping whitespace text nodes.
+
+                For each `book` element, read the `id` attribute with
+                ``XMLElement/attribute(named:)`` and find the `title` child
+                using `first(where:)`.
+
+                @Code(name: "Catalogue.swift", file: catalogue-03.swift)
+            }
+        }
+    }
+}
