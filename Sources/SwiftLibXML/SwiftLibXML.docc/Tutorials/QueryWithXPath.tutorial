@@ -1,0 +1,54 @@
+@Tutorial(time: 10) {
+    @Intro(title: "Query a Document with XPath") {
+        In this tutorial you compile XPath expressions to select elements,
+        use predicates to narrow results, and query namespace-prefixed XML.
+
+        XPath selects element nodes exclusively, which means you do not need
+        to filter out whitespace text nodes from the results.
+    }
+
+    @Section(title: "Select Elements with XPath") {
+        @ContentAndMedia {
+            ``XMLDocument/xpath(_:namespaces:defaultPrefix:)`` compiles an
+            XPath expression and returns an ``XMLPath`` collection. Because
+            ``XMLPath`` conforms to `RandomAccessCollection`, you can use the
+            full range of Swift collection operations on the result.
+        }
+
+        @Steps {
+            @Step {
+                Parse the XML source and compile a simple XPath expression
+                to select all `title` elements.
+
+                @Code(name: "XPathQuery.swift", file: xpath-01.swift)
+            }
+
+            @Step {
+                Add an attribute predicate to select only the book with
+                `id="1"`.
+
+                @Code(name: "XPathQuery.swift", file: xpath-02.swift)
+            }
+        }
+    }
+
+    @Section(title: "Query Namespaced Elements") {
+        @ContentAndMedia {
+            XPath requires an explicit prefix for every namespace in an
+            expression, even when the document uses a default namespace.
+
+            Register the prefix-to-URI mapping by passing a
+            `[(prefix: String, href: String)]` array to the `namespaces:`
+            parameter.
+        }
+
+        @Steps {
+            @Step {
+                Parse an Atom feed and use a namespace-aware XPath expression
+                to select `atom:title` elements.
+
+                @Code(name: "XPathQuery.swift", file: xpath-03.swift)
+            }
+        }
+    }
+}
